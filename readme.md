@@ -7,17 +7,17 @@ This is mainly a proof of concept of how a Cashu.me wallet extension that I vibe
 Ideally this extension shouldn't need much updates after we have it working, it uses an iframe for Cashu.me.
 
 # Getting Started
+```
+npm install
+rm -rf .parcel-cache distribution # I've found that its often necessary to run this otherwise the caching is sometimes weird.
+npm run watch
+npm install --global web-ext # (only only for the first time)
+web-ext run -t chromium
 
-`npm install`
-`rm -rf .parcel-cache distribution` I've found that its often necessary to run this otherwise the caching is sometimes weird.
-`npm run watch`
-`npm install --global web-ext` (only only for the first time)
-`web-ext run -t chromium`
-
-`git clone https://github.com/kelbie/cashu.me` 
-`npm install`
-`npm run dev`
-
+git clone https://github.com/kelbie/cashu.me 
+npm install
+npm run dev
+```
 In browser open up `https://localhost:8080`. You need to do this otherwise theres some security warning in the popup because of `https`.
 
 # TODO
