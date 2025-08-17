@@ -70,7 +70,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		ext: 'cashu',
 		type: 'frontendEvent',
 		event: message.event,
-		message: message.message
+		message: message.message,
+		payload: message.payload
 	}, targetOrigin);
 });
 

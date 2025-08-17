@@ -16,28 +16,21 @@
             background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
             color: #e5e5e5;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 24px;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
-            padding: 48px;
-            max-width: 700px;
+            padding: 32px;
             width: 100%;
-            box-shadow: 0 32px 64px rgba(0, 0, 0, 0.6);
         }
 
         h1 {
-            text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 24px;
             color: #ffffff;
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 600;
             letter-spacing: -0.5px;
         }
@@ -291,116 +284,400 @@
         .comment-input::placeholder {
             color: rgba(255, 255, 255, 0.4);
         }
+
+        /* Floating Messenger */
+        .floating-messenger {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            width: 360px;
+            max-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+        .floating-header {
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .floating-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: -0.2px;
+        }
+        .floating-actions button {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e5e5e5;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .floating-list {
+            padding: 10px 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .floating-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: rgba(0,0,0,0.25);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 8px 10px;
+        }
+        .floating-meta {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            font-size: 11px;
+            color: rgba(255,255,255,0.7);
+        }
+        .floating-meta .event {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .floating-text {
+            font-size: 12px;
+            color: #e5e5e5;
+            word-break: break-word;
+        }
+        .floating-json {
+            font-family: 'SF Mono','Monaco','Inconsolata','Roboto Mono', monospace;
+            font-size: 11px;
+            color: #cbd5e1;
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 6px;
+            padding: 8px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* Two-column layout */
+        .columns {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+        .left-col { min-width: 0; }
+        .right-col { position: sticky; top: 24px; align-self: start; }
+        @media (max-width: 900px) {
+            .columns { display: block; }
+            .right-col { position: static; }
+        }
+        .code-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.10);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+        .code-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        .code-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .copy-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e5e5e5;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        pre.code-block {
+            margin: 0;
+            padding: 12px;
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            overflow: auto;
+            color: #d1d5db;
+            font-family: 'SF Mono','Monaco','Inconsolata','Roboto Mono', monospace;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Cashu Extension Test</h1>
 
-        <div class="section">
-            <div class="section-title">Extension Control</div>
-            <div class="modal-section">
-                <button class="button" onclick="openModal()">Open Extension</button>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="section-title">Messenger</div>
-            <div id="messenger" style="display:flex;flex-direction:column;gap:8px;">
-                <div style="color: rgba(255,255,255,0.8); font-size: 13px;">Latest event:</div>
-                <div id="latest-event" style="padding:12px;border:1px solid rgba(255,255,255,0.12);border-radius:8px;background:rgba(0,0,0,0.25);font-family: 'SF Mono','Monaco','Inconsolata','Roboto Mono', monospace; font-size: 12px; color:#e5e5e5; min-height: 18px;">
-                    <em style="color: rgba(255,255,255,0.5);">No messages yet</em>
+        <div class="columns">
+            <div class="left-col">
+                <div class="section">
+                    <div class="section-title">Extension Control</div>
+                    <div class="modal-section">
+                        <button class="button" onclick="openModal()">Open Extension</button>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="section">
-          <div class="section-title">Token Management</div>
-          <div class="token-section">
-              <div class="token-input-group">
-                  <textarea 
-                      class="token-input" 
-                      id="cashu-token" 
-                      placeholder="Enter your Cashu token here..."
-                  ></textarea>
-                  <button class="claim-button" onclick="claimToken()">Claim</button>
+                <div class="section">
+                  <div class="section-title">Token Management</div>
+                  <div class="token-section">
+                      <div class="token-input-group">
+                          <textarea 
+                              class="token-input" 
+                              id="cashu-token" 
+                              placeholder="Enter your Cashu token here..."
+                          ></textarea>
+                          <button class="claim-button" onclick="claimToken()">Claim</button>
+                      </div>
+                  </div>
               </div>
-          </div>
-      </div>
-        
-        <div class="section">
-            <div class="section-title">Custom Lightning Payment</div>
-            <div class="payment-section">
-                <div class="input-group">
-                    <div style="flex: 1;">
-                        <label class="label" for="lightning-address">Lightning Address</label>
-                        <input 
-                            type="text" 
-                            class="input-field" 
-                            id="lightning-address" 
-                            placeholder="satoshi@gmx.com"
-                        >
+                
+                <div class="section">
+                    <div class="section-title">Custom Lightning Payment</div>
+                    <div class="payment-section">
+                        <div class="input-group">
+                            <div style="flex: 1;">
+                                <label class="label" for="lightning-address">Lightning Address</label>
+                                <input 
+                                    type="text" 
+                                    class="input-field" 
+                                    id="lightning-address" 
+                                    placeholder="satoshi@gmx.com"
+                                >
+                            </div>
+                            <button class="button primary-button" onclick="payLightning()">Pay</button>
+                        </div>
                     </div>
-                    <button class="button primary-button" onclick="payLightning()">Pay</button>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Quick Pay Examples</div>
+                    <div class="preset-addresses">
+                                        <div class="address-item">
+                            <div class="address-info">
+                                <div class="address-name">Calle</div>
+                                <div class="address-value">calle@npub.cash</div>
+                                <div class="comment-input-inline">
+                                    <input 
+                                        type="text" 
+                                        class="comment-input" 
+                                        id="calle-comment" 
+                                        placeholder="Add a comment (optional)..."
+                                    >
+                                </div>
+                                <div class="button-group">
+                                    <button class="button small-button" onclick="payLightningWithCommentIfProvided('calle@npub.cash')">Pay</button>
+                                    <button class="button small-button primary-button" onclick="payLightningWithAmountAndCommentIfProvided('calle@npub.cash', 42)">42 sats</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="address-item">
+                            <div class="address-info">
+                                <div class="address-name">KELBIE</div>
+                                <div class="address-value">quiethorse9@primal.net</div>
+                                <div class="comment-input-inline">
+                                    <input 
+                                        type="text" 
+                                        class="comment-input" 
+                                        id="kelbie-comment" 
+                                        placeholder="Add a comment (optional)..."
+                                >
+                                </div>
+                                <div class="button-group">
+                                    <button class="button small-button" onclick="payLightningWithCommentIfProvided('quiethorse9@primal.net')">Pay</button>
+                                    <button class="button small-button primary-button" onclick="payLightningWithAmountAndCommentIfProvided('quiethorse9@primal.net', 42)">42 sats</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="right-col">
+                <div class="code-card">
+                    <div class="code-title">API (Page → Extension)</div>
+                    <div class="code-actions">
+                        <button class="copy-btn" data-copy-target="#code-page-to-extension">Copy</button>
+                    </div>
+                    <pre class="code-block" id="code-page-to-extension">// Using injected helper
+// Open extension popup
+window._cashu.popup();
 
-        <div class="section">
-            <div class="section-title">Quick Pay Examples</div>
-            <div class="preset-addresses">
-                                <div class="address-item">
-                    <div class="address-info">
-                        <div class="address-name">Calle</div>
-                        <div class="address-value">calle@npub.cash</div>
-                        <div class="comment-input-inline">
-                            <input 
-                                type="text" 
-                                class="comment-input" 
-                                id="calle-comment" 
-                                placeholder="Add a comment (optional)..."
-                            >
-                        </div>
-                        <div class="button-group">
-                            <button class="button small-button" onclick="payLightningWithCommentIfProvided('calle@npub.cash')">Pay</button>
-                            <button class="button small-button primary-button" onclick="payLightningWithAmountAndCommentIfProvided('calle@npub.cash', 42)">42 sats</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="address-item">
-                    <div class="address-info">
-                        <div class="address-name">KELBIE</div>
-                        <div class="address-value">quiethorse9@primal.net</div>
-                        <div class="comment-input-inline">
-                            <input 
-                                type="text" 
-                                class="comment-input" 
-                                id="kelbie-comment" 
-                                placeholder="Add a comment (optional)..."
-                        >
-                        </div>
-                        <div class="button-group">
-                            <button class="button small-button" onclick="payLightningWithCommentIfProvided('quiethorse9@primal.net')">Pay</button>
-                            <button class="button small-button primary-button" onclick="payLightningWithAmountAndCommentIfProvided('quiethorse9@primal.net', 42)">42 sats</button>
-                        </div>
-                    </div>
+// Claim token
+window._cashu.claimToken('cashuB...');
+
+// Pay lightning
+window._cashu.payln('user@example.com');
+window._cashu.payln('user@example.com', 42);
+window._cashu.payln('user@example.com', 42, 'Thanks!');
+window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Thanks!' });
+</pre>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Floating Messenger Panel -->
+    <div class="floating-messenger" id="floating-messenger">
+        <div class="floating-header">
+            <div class="floating-title">Messages</div>
+            <div class="floating-actions">
+                <button id="clear-messages">Clear</button>
+            </div>
+        </div>
+        <div class="floating-list" id="floating-messenger-list"></div>
+    </div>
+
+    <!-- Auto-generate a demo v4 token on page load -->
+    <script type="module">
+        import { CashuMint, CashuWallet, getEncodedTokenV4, MintQuoteState } from 'https://esm.sh/@cashu/cashu-ts@latest';
+
+        const MINT_URL = 'https://nofees.testnut.cashu.space';
+
+        async function mintCashuTokenV4(amountSat = 1000, payInvoice) {
+            const mint = new CashuMint(MINT_URL);
+            const keys = (await mint.getKeys()).keysets;
+            const key = keys.find((k) => k.unit === 'sat');
+            const wallet = new CashuWallet(mint, { unit: 'sat', keys: key });
+
+            const quoteRes = await wallet.createMintQuote(amountSat);
+            const quoteId = quoteRes.quote;
+            const bolt11 = quoteRes.request;
+
+            if (payInvoice) {
+                await payInvoice(bolt11, amountSat);
+            } else {
+                console.log('Pay this invoice to mint:', bolt11);
+            }
+
+            const deadline = Date.now() + 60_000;
+            while (true) {
+                const status = await wallet.checkMintQuote(quoteId);
+                if (status.state === MintQuoteState.PAID) break;
+                if (Date.now() > deadline) throw new Error('Mint quote not paid before timeout.');
+                await new Promise(r => setTimeout(r, 1500));
+            }
+
+            const proofs = await wallet.mintProofs(amountSat, quoteId, { keysetId: key.id });
+            const token = { proofs, mint: MINT_URL, unit: 'sat' };
+            const encoded = getEncodedTokenV4(token);
+            return encoded;
+        }
+
+        async function initDemoToken() {
+            const textarea = document.getElementById('cashu-token');
+            if (!textarea) return;
+            const originalPlaceholder = textarea.placeholder;
+            try {
+                textarea.placeholder = 'Generating demo Cashu token...';
+                textarea.value = '';
+                textarea.disabled = true;
+                const token = await mintCashuTokenV4(1000);
+                textarea.value = token;
+            } catch (err) {
+                console.error('Failed to mint demo token:', err);
+                textarea.placeholder = 'Failed to generate token. Try again later.';
+            } finally {
+                textarea.disabled = false;
+                if (!textarea.value) textarea.placeholder = originalPlaceholder;
+            }
+        }
+
+        // Kick off on load
+        window.addEventListener('DOMContentLoaded', initDemoToken);
+    </script>
+
     <script>
-        // Simple messenger listener: show latest event from extension
+        // Messenger listener: log messages to floating panel
         window.addEventListener('message', (event) => {
             if (event.source !== window) return;
             const data = event.data;
             if (!data || data.ext !== 'cashu') return;
             if (data.type !== 'frontendEvent') return;
 
-            const latestEl = document.getElementById('latest-event');
-            const rendered = `[${new Date().toLocaleTimeString()}] ${data.event || ''} - ${data.message || ''}`.trim();
-            latestEl.textContent = rendered;
+            // Append to floating messenger history
+            appendToFloatingMessenger(data);
+        });
+
+        function appendToFloatingMessenger(data) {
+            const list = document.getElementById('floating-messenger-list');
+            if (!list) return;
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'floating-item';
+
+            const meta = document.createElement('div');
+            meta.className = 'floating-meta';
+
+            const timeEl = document.createElement('span');
+            timeEl.textContent = new Date().toLocaleTimeString();
+            const eventEl = document.createElement('span');
+            eventEl.className = 'event';
+            eventEl.textContent = data.event || 'event';
+            const levelEl = document.createElement('span');
+            levelEl.textContent = data.payload && data.payload.level ? `[${data.payload.level}]` : '';
+
+            meta.appendChild(timeEl);
+            meta.appendChild(eventEl);
+            if (levelEl.textContent) meta.appendChild(levelEl);
+
+            const text = document.createElement('div');
+            text.className = 'floating-text';
+            text.textContent = data.message || '';
+
+            wrapper.appendChild(meta);
+            if (text.textContent) wrapper.appendChild(text);
+
+            // Try to show payload JSON prettily
+            let payloadObj = null;
+            if (data.payload && typeof data.payload === 'object') {
+                payloadObj = data.payload;
+                // If payload.message looks like JSON, expand that for readability
+                if (typeof payloadObj.message === 'string') {
+                    try {
+                        const maybe = JSON.parse(payloadObj.message);
+                        payloadObj.expanded = maybe;
+                    } catch (_) {}
+                }
+            }
+            if (payloadObj) {
+                const pre = document.createElement('pre');
+                pre.className = 'floating-json';
+                try {
+                    const toShow = payloadObj.expanded ?? payloadObj;
+                    pre.textContent = JSON.stringify(toShow, null, 2);
+                } catch (e) {
+                    pre.textContent = String(payloadObj);
+                }
+                wrapper.appendChild(pre);
+            }
+
+            list.appendChild(wrapper);
+            // Keep scroll at bottom
+            list.scrollTop = list.scrollHeight;
+        }
+
+        document.getElementById('clear-messages').addEventListener('click', () => {
+            const list = document.getElementById('floating-messenger-list');
+            if (list) list.innerHTML = '';
         });
 
         function claimToken() {
@@ -442,7 +719,7 @@
             }
             
             try {
-                const result = await window._cashu.payLightningAddress(address);
+                const result = await window._cashu.payln(address);
                 console.log('Payment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
@@ -462,7 +739,7 @@
             }
             
             try {
-                const result = await window._cashu.payLightningAddressWithAmount(address, amount);
+                const result = await window._cashu.payln(address, amount);
                 console.log('Payment with amount result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
@@ -487,7 +764,7 @@
             }
             
             try {
-                const result = await window._cashu.payLightningAddressWithCommentOnly(address, comment);
+                const result = await window._cashu.payln(address, undefined, comment);
                 console.log('Payment with comment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
@@ -517,7 +794,7 @@
             }
             
             try {
-                const result = await window._cashu.payLightningAddressWithAmount(address, amount, comment);
+                const result = await window._cashu.payln(address, amount, comment);
                 console.log('Payment with amount and comment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
@@ -546,10 +823,10 @@
             
             try {
                 if (comment) {
-                    const result = await window._cashu.payLightningAddressWithCommentOnly(address, comment);
+                    const result = await window._cashu.payln(address, undefined, comment);
                     console.log('Payment with comment result:', result);
                 } else {
-                    const result = await window._cashu.payLightningAddress(address);
+                    const result = await window._cashu.payln(address);
                     console.log('Payment result:', result);
                 }
             } catch (error) {
@@ -584,10 +861,10 @@
             
             try {
                 if (comment) {
-                    const result = await window._cashu.payLightningAddressWithAmount(address, amount, comment);
+                    const result = await window._cashu.payln(address, amount, comment);
                     console.log('Payment with amount and comment result:', result);
                 } else {
-                    const result = await window._cashu.payLightningAddressWithAmountOnly(address, amount);
+                    const result = await window._cashu.payln(address, amount);
                     console.log('Payment with amount only result:', result);
                 }
             } catch (error) {
@@ -616,7 +893,7 @@
             }
             
             try {
-                const result = await window._cashu.payLightningAddressWithAmountOnly(address, amount);
+                const result = await window._cashu.payln(address, amount);
                 console.log('Amount only payment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
@@ -644,7 +921,7 @@
             }
             
             try {
-                const result = await window._cashu.payLightningAddressWithCommentOnly(address, comment);
+                const result = await window._cashu.payln(address, undefined, comment);
                 console.log('Comment only payment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
@@ -673,7 +950,7 @@
             }
             
             try {
-                const result = await window._cashu.payLightningAddressWithAmount(address, amount, comment);
+                const result = await window._cashu.payln(address, amount, comment);
                 console.log('Amount and comment payment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);

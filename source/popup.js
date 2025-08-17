@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				action: "frontendEvent",
 				event: data.event || data.type,
 				message: data.message,
+				payload: data.payload,
 				id: data.id,
 			});
 		}

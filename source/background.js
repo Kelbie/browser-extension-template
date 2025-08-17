@@ -27,6 +27,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
           action: 'frontendEvent',
           event: message.event,
           message: message.message,
+          payload: message.payload,
           id: message.id,
         });
       }
