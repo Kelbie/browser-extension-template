@@ -15,7 +15,8 @@
 	}
 
 	// Add the popup method
-	window._cashu.popup = function({ action, params }) {
+	window._cashu.popup = function(options = {}) {
+		const { action, params } = options || {};
 		console.log('💈 Popup method called with params:', params);
 		// Send a message to the content script
 		const message = {

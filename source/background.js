@@ -9,13 +9,16 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     console.log('💈 Opening popup with params:', message.params);
 		await chrome.action.openPopup();
 
-		setTimeout(() => {
+		// Only forward an action to the popup if a specific type was provided
+		if (message.type) {
+			setTimeout(() => {
       console.log('💈 Sending message to popup with action:', message.type, 'and params:', message.params);
-			chrome.runtime.sendMessage({
-				action: message.type,
-				params: message.params
-			});
-		}, 2000);
+				chrome.runtime.sendMessage({
+					action: message.type,
+					params: message.params
+				});
+			}, 2000);
+		}
 	}
 
   // Forward frontend events coming back from the popup (cashu.me -> popup -> background)
