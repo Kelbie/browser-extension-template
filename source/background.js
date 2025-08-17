@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/no-unassigned-import
+// eslint-disable-next-line import/no-assigned-import
 import "./options-storage.js";
 
 // Listen for messages from content scripts
@@ -10,9 +10,9 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 		await chrome.action.openPopup();
 
 		setTimeout(() => {
-      console.log('💈 Sending lnpay message to popup with params:', message.params);
+      console.log('💈 Sending message to popup with action:', message.type, 'and params:', message.params);
 			chrome.runtime.sendMessage({
-				action: "lnpay",
+				action: message.type,
 				params: message.params
 			});
 		}, 2000);

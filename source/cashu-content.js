@@ -12,35 +12,6 @@ function getTargetOrigin() {
 	return '*'; // Use wildcard for local development
 }
 
-// Listen for messages from the background script
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-	console.log('💈 Message received in cashu.me content script:', message);
-	
-	if (message.action === 'triggerLightningPayment') {
-		try {
-			const { addrOrLnurl } = message;
-			console.log('💈 Triggering lightning payment for:', addrOrLnurl);
-			
-			// Send postMessage to the webpage to trigger the payment dialog
-			const targetOrigin = getTargetOrigin();
-			console.log('💈 Using target origin:', targetOrigin);
-			
-			window.postMessage({
-				ext: 'cashu',
-				type: 'payLightningAddress',
-				params: { addrOrLnurl },
-				id: Date.now()
-			}, targetOrigin);
-			
-			sendResponse({ success: true, message: 'Payment request sent to webpage' });
-		} catch (error) {
-			console.error('💈 Error triggering lightning payment:', error);
-			sendResponse({ error: error.message });
-		}
-		return true; // Keep message channel open for async response
-	}
-});
-
 // Also listen for postMessage responses from the webpage to forward back to the extension
 window.addEventListener('message', (event) => {
 	// Only handle messages from the same window

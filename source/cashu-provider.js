@@ -15,12 +15,13 @@
 	}
 
 	// Add the popup method
-	window._cashu.popup = function(params) {
+	window._cashu.popup = function({ action, params }) {
 		console.log('💈 Popup method called with params:', params);
 		// Send a message to the content script
 		const message = {
 			ext: 'cashu',
 			type: 'openPopup',
+      action: action,
 			params: params || {},
 			id: Date.now()
 		};
@@ -40,7 +41,14 @@
 	// Add WebLN-like payment methods
 	window._cashu.payLightningAddress = async function(addrOrLnurl) {
 		console.log('💈 payLightningAddress called with:', addrOrLnurl);
-		await window._cashu.popup({addrOrLnurl: addrOrLnurl});
+		await window._cashu.popup({action: 'lnpay', params: {addrOrLnurl: addrOrLnurl}});
+	};
+
+  window._cashu.claimToken = async function(token) {
+    console.log('💈 claimToken called with:', token);
+		await window._cashu.popup({action: 'claimToken', params: {
+      token: token
+    }});
 	};
 
 	// Add enable method for WebLN compatibility

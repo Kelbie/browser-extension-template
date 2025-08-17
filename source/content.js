@@ -34,6 +34,7 @@ window.addEventListener('message', async (message) => {
 			// Send message to background script to open popup with the actual params
 			await chrome.runtime.sendMessage({ 
 				action: 'openPopup', 
+        type: message.data.action,
 				params: message.data.params || {}
 			});
 			

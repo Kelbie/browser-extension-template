@@ -148,6 +148,8 @@
 
         .input-field {
             flex: 1;
+            width: 100%;
+
             padding: 14px 16px;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -303,9 +305,7 @@
                 return;
             }
             
-            // Add claim logic here when available in the extension API
-            console.log('Claiming token:', token);
-            alert('Token claim functionality will be implemented');
+            window._cashu.claimToken(token);
         }
 
         function openModal() {
@@ -332,22 +332,6 @@
             try {
                 const result = await window._cashu.payLightningAddress(address);
                 console.log('Payment result:', result);
-            } catch (error) {
-                alert('Payment failed: ' + error.message);
-                console.error('Payment error:', error);
-            }
-        }
-
-        async function payPresetAddress(address) {
-            if (typeof window._cashu === 'undefined') {
-                alert('Cashu extension not detected');
-                return;
-            }
-            
-            try {
-                const result = await window._cashu.payLightningAddress(address);
-                console.log('Payment result:', result);
-                alert('Payment initiated for ' + address);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
                 console.error('Payment error:', error);
