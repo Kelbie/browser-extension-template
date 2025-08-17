@@ -25,8 +25,17 @@ window.addEventListener('message', async (message) => {
 	// Handle different message types
 	if (message.data.type === 'openPopup') {
 		try {
-			// Send message to background script to open popup
-			await chrome.runtime.sendMessage({ action: 'openPopup' });
+			console.log('💈 Content script received openPopup message:', message.data);
+			console.log('💈 Full message object:', message);
+			console.log('💈 message.data.params:', message.data.params);
+			console.log('💈 message.data type:', typeof message.data);
+			console.log('💈 message.data keys:', Object.keys(message.data));
+			
+			// Send message to background script to open popup with the actual params
+			await chrome.runtime.sendMessage({ 
+				action: 'openPopup', 
+				params: message.data.params || {}
+			});
 			
 			// Send success response back to webpage
 			const targetOrigin = getTargetOrigin();
@@ -37,34 +46,6 @@ window.addEventListener('message', async (message) => {
 			}, targetOrigin);
 		} catch (error) {
 			console.error('💈 Error opening popup:', error);
-			
-			// Send error response back to webpage
-			const targetOrigin = getTargetOrigin();
-			window.postMessage({
-				id: message.data.id,
-				ext: 'cashu',
-				response: { error: error.message }
-			}, targetOrigin);
-		}
-	} else if (message.data.type === 'payLightningAddress') {
-		try {
-			console.log('💈 Processing payment request for:', message.data.params.addrOrLnurl);
-			
-			// Send message to background script to handle payment
-			const response = await chrome.runtime.sendMessage({ 
-				action: 'payLightningAddress',
-				addrOrLnurl: message.data.params.addrOrLnurl
-			});
-			
-			// Send success response back to webpage
-			const targetOrigin = getTargetOrigin();
-			window.postMessage({
-				id: message.data.id,
-				ext: 'cashu',
-				response: { success: true, result: response }
-			}, targetOrigin);
-		} catch (error) {
-			console.error('💈 Error processing payment:', error);
 			
 			// Send error response back to webpage
 			const targetOrigin = getTargetOrigin();
