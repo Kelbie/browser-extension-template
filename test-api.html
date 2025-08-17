@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cashu Extension Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+        .button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Cashu Extension Test</h1>
+        
+        <button class="button" onclick="openModal()">🚀 Open Modal</button>
+        
+        <input type="text" id="lightning-address" placeholder="Enter Lightning Address (e.g., satoshi@getalby.com)">
+        
+        <button class="button" onclick="payLightning()">💳 Pay Lightning Address</button>
+    </div>
+
+    <script>
+        function openModal() {
+            if (typeof window._cashu === 'undefined') {
+                alert('Cashu extension not detected');
+                return;
+            }
+            window._cashu.popup();
+        }
+
+        async function payLightning() {
+            const address = document.getElementById('lightning-address').value.trim();
+            
+            if (!address) {
+                alert('Please enter a Lightning address');
+                return;
+            }
+            
+            if (typeof window._cashu === 'undefined') {
+                alert('Cashu extension not detected');
+                return;
+            }
+            
+            try {
+                const result = await window._cashu.payLightningAddress(address);
+                console.log('Payment result:', result);
+            } catch (error) {
+                alert('Payment failed: ' + error.message);
+                console.error('Payment error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

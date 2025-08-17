@@ -20,6 +20,7 @@ Screenshot of extension options:
 - Use npm dependencies thanks to Parcel 2.
 - [Auto-syncing options](#auto-syncing-options).
 - [Auto-publishing](#publishing) with auto-versioning and support for manual releases.
+- **Cross-browser popup API** - Any website can programmatically open the extension popup using `window._cashu.popup()`.
 
 ## Getting started
 
@@ -56,6 +57,54 @@ You can also [load the extension manually in Chrome](https://www.smashingmagazin
 1. Go back to your browser, reload and see the change take effect
 
 Note: Firefox will automatically reload content scripts when the extension is updated, Chrome requires you to reload the page to reload the content scripts.
+
+## 🌐 Cross-Browser Popup API
+
+The extension provides a global API that allows any website to programmatically open the Cashu extension popup. This is useful for integrating the extension into web applications.
+
+### Usage
+
+Once the extension is installed, any website can access the API through `window._cashu`:
+
+```javascript
+// Open the extension popup
+window._cashu.popup();
+
+// Get extension information
+console.log(window._cashu.name);     // Extension name
+console.log(window._cashu.version);  // Extension version
+```
+
+### API Reference
+
+| Method/Property | Description |
+|----------------|-------------|
+| `window._cashu.popup()` | Opens the Cashu extension popup programmatically |
+| `window._cashu.name` | Returns the extension name |
+| `window._cashu.version` | Returns the extension version |
+
+### Testing the API
+
+1. Install the extension in your browser
+2. Open the `test-api.html` file in your browser
+3. Click the "Open Cashu Popup" button to test the functionality
+
+### How it Works
+
+The extension uses a two-part approach:
+1. **Content Script**: Runs on all websites and injects a provider script using `chrome.runtime.getURL()`
+2. **Provider Script**: Runs in the webpage's context and provides the `window._cashu` API
+3. **Message Passing**: When `popup()` is called, it sends a message via `postMessage` to the content script
+4. **Background Communication**: The content script forwards the request to the background script
+5. **Popup Opening**: The background script opens the extension popup using the browser's extension API
+
+This approach ensures the API is properly accessible from the webpage's JavaScript context while maintaining security through the extension's isolated execution environment.
+
+### Security Considerations
+
+- The extension only runs on HTTPS websites (or localhost for development)
+- The API is read-only except for the `popup()` method
+- No sensitive data is exposed through the API
 
 ### 📕 Read the documentation
 
