@@ -175,6 +175,52 @@
             font-weight: 500;
             letter-spacing: -0.1px;
         }
+
+        .preset-addresses {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .address-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .address-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .address-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .address-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .address-value {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+        }
+
+        .small-button {
+            padding: 10px 16px;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -203,7 +249,7 @@
         </div>
         
         <div class="section">
-            <div class="section-title">Lightning Payment</div>
+            <div class="section-title">Custom Lightning Payment</div>
             <div class="payment-section">
                 <div class="input-group">
                     <div style="flex: 1;">
@@ -212,10 +258,31 @@
                             type="text" 
                             class="input-field" 
                             id="lightning-address" 
-                            placeholder="satoshi@getalby.com"
+                            placeholder="satoshi@gmx.com"
                         >
                     </div>
                     <button class="button primary-button" onclick="payLightning()">Pay</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Quick Pay Examples</div>
+            <div class="preset-addresses">
+                <div class="address-item">
+                    <div class="address-info">
+                        <div class="address-name">Calle</div>
+                        <div class="address-value">calle@npub.cash</div>
+                    </div>
+                    <button class="button small-button" onclick="payLightning('calle@npub.cash')">Pay</button>
+                </div>
+                
+                <div class="address-item">
+                    <div class="address-info">
+                        <div class="address-name">KELBIE</div>
+                        <div class="address-value">quiethorse9@primal.net</div>
+                    </div>
+                    <button class="button small-button" onclick="payLightning('quiethorse9@primal.net')">Pay</button>
                 </div>
             </div>
         </div>
@@ -249,8 +316,8 @@
             window._cashu.popup();
         }
 
-        async function payLightning() {
-            const address = document.getElementById('lightning-address').value.trim();
+        async function payLightning(propAddress) {
+            const address = propAddress || document.getElementById('lightning-address').value.trim();
             
             if (!address) {
                 alert('Please enter a Lightning address');
@@ -265,6 +332,22 @@
             try {
                 const result = await window._cashu.payLightningAddress(address);
                 console.log('Payment result:', result);
+            } catch (error) {
+                alert('Payment failed: ' + error.message);
+                console.error('Payment error:', error);
+            }
+        }
+
+        async function payPresetAddress(address) {
+            if (typeof window._cashu === 'undefined') {
+                alert('Cashu extension not detected');
+                return;
+            }
+            
+            try {
+                const result = await window._cashu.payLightningAddress(address);
+                console.log('Payment result:', result);
+                alert('Payment initiated for ' + address);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
                 console.error('Payment error:', error);
