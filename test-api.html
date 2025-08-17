@@ -65,16 +65,17 @@
         }
 
         .token-input-group {
+            position: relative;
             display: flex;
-            gap: 12px;
-            align-items: flex-end;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .token-input {
             flex: 1;
             font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
             font-size: 13px;
-            padding: 16px;
+            padding: 16px 80px 16px 16px;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.12);
             background: rgba(0, 0, 0, 0.3);
@@ -93,6 +94,34 @@
 
         .token-input::placeholder {
             color: rgba(255, 255, 255, 0.4);
+        }
+
+        .claim-button {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #404040 0%, #353535 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            letter-spacing: -0.1px;
+            z-index: 10;
+        }
+
+        .claim-button:hover {
+            background: linear-gradient(135deg, #4a4a4a 0%, #3f3f3f 100%);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .claim-button:active {
+            transform: translateY(0);
         }
 
         .button {
@@ -228,20 +257,6 @@
 <body>
     <div class="container">
         <h1>Cashu Extension Test</h1>
-        
-        <div class="section">
-            <div class="section-title">Token Management</div>
-            <div class="token-section">
-                <div class="token-input-group">
-                    <textarea 
-                        class="token-input" 
-                        id="cashu-token" 
-                        placeholder="Enter your Cashu token here..."
-                    >cashuBo2FteBtodHRwczovL3Rlc3RudXQuY2FzaHUuc3BhY2VhdWNzYXRhdIGiYWlIAE_d6YvMRdJhcISkYWEQYXN4QGM3NDM0YTA3NGMwYjA4MTA1MzcxMWQxZTNkNjgxZDkwN2ViODdlNzJjOWM1N2U1NTQwODJjMjQ2MmNkYzdlMGVhY1ghAyX0XCl0cn-Xj_xOTMn6oPYIDV-NmUSOPXgmLJONqHNJYWSjYWVYIBibIOqJwRzlN7SUC7zne3xEyM63LXGy_fKkzV1JlWxrYXNYIOFXwhm6HTGrrPDdEyZFsxKq6ETkvhgj6nalVELXkw7aYXJYICyGzqQtG70AaY5KFa7n_zEI-qyM6qRp-0tzqnJnEwxmpGFhEGFzeEBkOGU4MDQ0MmM5MjZlZDdlNGFlMWYxZGQzOTBkNGQ0NjY5ZDkyYTU3NWU3ZmU5MTYyY2U0MWZiNzg4MWViZTMxYWNYIQOMPo-_BRDL3sBWd_d5sIBHTe5jWriywnpwtnpbcjdnJWFko2FlWCBrLjcrmFjbV8SuT6Bg2g5NxoE02rEO90-ySLtOcSXKwmFzWCDEV6g9g9rHGHx4jSF0gqZPRypFnnpF2FyV2JVcILl9EWFyWCA0afKH-lf6bm4B_ocWAvSJD9V8seP0cVopJQgqZ4VSu6RhYRBhc3hAZjNjYzU4MjhlMjAzMTM2YzMwY2YzM2ZhY2NlN2IyM2MwODA4MWY2YjI1YmIzNDdkZjUwZmM4MjExZjM1ZmVhNGFjWCECUJug1gg6NCV-O75lsQUTXyT9A3RvbrC7c24KtILVVK1hZKNhZVggktfp6i4Ri0pQPs3h_qj0YB2VqvMd4v599howRdR8ExFhc1ggdn5swd9DTKFsdeiJ18Rv6Op07P1Chnexo8jOfH3_zmhhclgg2Frp4QUBMeaHbYJDKt4Ok7huWD3P1Vc_HA6eODkLlsakYWECYXN4QDNjZDkyZTk2NTc1ZTVkYmU5NzNhNDYwN2M3YjA0MmFiMWYzM2NjOTUwYWVhYjY0YTc3ODliOWM4NDFjMzdlZjVhY1ghA1PF6iDR8lw_MqYNeJHYxXYRvBH1CTbGqzyStp3qxTqxYWSjYWVYIIl3ipikFzGVywDZ8rEJG3DJxm7hsPdClZtzGKVBwWWOYXNYIC7dIyR59mVVFTPK9DnojrepYlOzwtFCZpyZxrR6tMVrYXJYIK9orgPbPJgAJDsSlYnBwK81p0jNSsxPkol-C5HXv8K6</textarea>
-                    <button class="button primary-button" onclick="claimToken()">Claim</button>
-                </div>
-            </div>
-        </div>
 
         <div class="section">
             <div class="section-title">Extension Control</div>
@@ -249,6 +264,20 @@
                 <button class="button" onclick="openModal()">Open Extension</button>
             </div>
         </div>
+
+        <div class="section">
+          <div class="section-title">Token Management</div>
+          <div class="token-section">
+              <div class="token-input-group">
+                  <textarea 
+                      class="token-input" 
+                      id="cashu-token" 
+                      placeholder="Enter your Cashu token here..."
+                  >cashuBo2FteBtodHRwczovL3Rlc3RudXQuY2FzaHUuc3BhY2VhdWNzYXRhdIGiYWlIAE_d6YvMRdJhcISkYWEQYXN4QGM3NDM0YTA3NGMwYjA4MTA1MzcxMWQxZTNkNjgxZDkwN2ViODdlNzJjOWM1N2U1NTQwODJjMjQ2MmNkYzdlMGVhY1ghAyX0XCl0cn-Xj_xOTMn6oPYIDV-NmUSOPXgmLJONqHNJYWSjYWVYIBibIOqJwRzlN7SUC7zne3xEyM63LXGy_fKkzV1JlWxrYXNYIOFXwhm6HTGrrPDdEyZFsxKq6ETkvhgj6nalVELXkw7aYXJYICyGzqQtG70AaY5KFa7n_zEI-qyM6qRp-0tzqnJnEwxmpGFhEGFzeEBkOGU4MDQ0MmM5MjZlZDdlNGFlMWYxZGQzOTBkNGQ0NjY5ZDkyYTU3NWU3ZmU5MTYyY2U0MWZiNzg4MWViZTMxYWNYIQOMPo-_BRDL3sBWd_d5sIBHTe5jWriywnpwtnpbcjdnJWFko2FlWCBrLjcrmFjbV8SuT6Bg2g5NxoE02rEO90-ySLtOcSXKwmFzWCDEV6g9g9rHGHx4jSF0gqZPRypFnnpF2FyV2JVcILl9EWFyWCA0afKH-lf6bm4B_ocWAvSJD9V8seP0cVopJQgqZ4VSu6RhYRBhc3hAZjNjYzU4MjhlMjAzMTM2YzMwY2YzM2ZhY2NlN2IyM2MwODA4MWY2YjI1YmIzNDdkZjUwZmM4MjExZjM1ZmVhNGFjWCECUJug1gg6NCV-O75lsQUTXyT9A3RvbrC7c24KtILVVK1hZKNhZVggktfp6i4Ri0pQPs3h_qj0YB2VqvMd4v599howRdR8ExFhc1ggdn5swd9DTKFsdeiJ18Rv6Op07P1Chnexo8jOfH3_zmhhclgg2Frp4QUBMeaHbYJDKt4Ok7huWD3P1Vc_HA6eODkLlsakYWECYXN4QDNjZDkyZTk2NTc1ZTVkYmU5NzNhNDYwN2M3YjA0MmFiMWYzM2NjOTUwYWVhYjY0YTc3ODliOWM4NDFjMzdlZjVhY1ghA1PF6iDR8lw_MqYNeJHYxXYRvBH1CTbGqzyStp3qxTqxYWSjYWVYIIl3ipikFzGVywDZ8rEJG3DJxm7hsPdClZtzGKVBwWWOYXNYIC7dIyR59mVVFTPK9DnojrepYlOzwtFCZpyZxrR6tMVrYXJYIK9orgPbPJgAJDsSlYnBwK81p0jNSsxPkol-C5HXv8K6</textarea>
+                  <button class="claim-button" onclick="claimToken()">Claim</button>
+              </div>
+          </div>
+      </div>
         
         <div class="section">
             <div class="section-title">Custom Lightning Payment</div>
