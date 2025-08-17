@@ -5,63 +5,242 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cashu Extension Test</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: #e5e5e5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
         }
+
         .container {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 48px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 32px 64px rgba(0, 0, 0, 0.6);
         }
+
         h1 {
             text-align: center;
-            margin-bottom: 30px;
-            color: #fff;
+            margin-bottom: 48px;
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
         }
-        .button {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 10px;
-            transition: transform 0.2s, box-shadow 0.2s;
+
+        .section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
         }
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 16px;
+            letter-spacing: -0.2px;
         }
-        input[type="text"] {
-            width: 100%;
-            padding: 15px;
+
+        .token-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .token-input-group {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .token-input {
+            flex: 1;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            font-size: 13px;
+            padding: 16px;
             border-radius: 8px;
-            border: 1px solid #ccc;
-            margin: 20px 0;
-            font-size: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.3);
+            color: #e5e5e5;
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.5;
+            transition: all 0.2s ease;
+        }
+
+        .token-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .token-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .button {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            letter-spacing: -0.1px;
+        }
+
+        .button:hover {
+            background: linear-gradient(135deg, #333333 0%, #282828 100%);
+            border-color: rgba(255, 255, 255, 0.18);
+            transform: translateY(-1px);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .primary-button {
+            background: linear-gradient(135deg, #404040 0%, #353535 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .primary-button:hover {
+            background: linear-gradient(135deg, #4a4a4a 0%, #3f3f3f 100%);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .modal-section {
+            display: flex;
+            justify-content: center;
+        }
+
+        .payment-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: -0.1px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🧪 Cashu Extension Test</h1>
+        <h1>Cashu Extension Test</h1>
         
-        <button class="button" onclick="openModal()">🚀 Open Modal</button>
+        <div class="section">
+            <div class="section-title">Token Management</div>
+            <div class="token-section">
+                <div class="token-input-group">
+                    <textarea 
+                        class="token-input" 
+                        id="cashu-token" 
+                        placeholder="Enter your Cashu token here..."
+                    >cashuBo2FteBtodHRwczovL3Rlc3RudXQuY2FzaHUuc3BhY2VhdWNzYXRhdIGiYWlIAE_d6YvMRdJhcISkYWEQYXN4QGM3NDM0YTA3NGMwYjA4MTA1MzcxMWQxZTNkNjgxZDkwN2ViODdlNzJjOWM1N2U1NTQwODJjMjQ2MmNkYzdlMGVhY1ghAyX0XCl0cn-Xj_xOTMn6oPYIDV-NmUSOPXgmLJONqHNJYWSjYWVYIBibIOqJwRzlN7SUC7zne3xEyM63LXGy_fKkzV1JlWxrYXNYIOFXwhm6HTGrrPDdEyZFsxKq6ETkvhgj6nalVELXkw7aYXJYICyGzqQtG70AaY5KFa7n_zEI-qyM6qRp-0tzqnJnEwxmpGFhEGFzeEBkOGU4MDQ0MmM5MjZlZDdlNGFlMWYxZGQzOTBkNGQ0NjY5ZDkyYTU3NWU3ZmU5MTYyY2U0MWZiNzg4MWViZTMxYWNYIQOMPo-_BRDL3sBWd_d5sIBHTe5jWriywnpwtnpbcjdnJWFko2FlWCBrLjcrmFjbV8SuT6Bg2g5NxoE02rEO90-ySLtOcSXKwmFzWCDEV6g9g9rHGHx4jSF0gqZPRypFnnpF2FyV2JVcILl9EWFyWCA0afKH-lf6bm4B_ocWAvSJD9V8seP0cVopJQgqZ4VSu6RhYRBhc3hAZjNjYzU4MjhlMjAzMTM2YzMwY2YzM2ZhY2NlN2IyM2MwODA4MWY2YjI1YmIzNDdkZjUwZmM4MjExZjM1ZmVhNGFjWCECUJug1gg6NCV-O75lsQUTXyT9A3RvbrC7c24KtILVVK1hZKNhZVggktfp6i4Ri0pQPs3h_qj0YB2VqvMd4v599howRdR8ExFhc1ggdn5swd9DTKFsdeiJ18Rv6Op07P1Chnexo8jOfH3_zmhhclgg2Frp4QUBMeaHbYJDKt4Ok7huWD3P1Vc_HA6eODkLlsakYWECYXN4QDNjZDkyZTk2NTc1ZTVkYmU5NzNhNDYwN2M3YjA0MmFiMWYzM2NjOTUwYWVhYjY0YTc3ODliOWM4NDFjMzdlZjVhY1ghA1PF6iDR8lw_MqYNeJHYxXYRvBH1CTbGqzyStp3qxTqxYWSjYWVYIIl3ipikFzGVywDZ8rEJG3DJxm7hsPdClZtzGKVBwWWOYXNYIC7dIyR59mVVFTPK9DnojrepYlOzwtFCZpyZxrR6tMVrYXJYIK9orgPbPJgAJDsSlYnBwK81p0jNSsxPkol-C5HXv8K6</textarea>
+                    <button class="button primary-button" onclick="claimToken()">Claim</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Extension Control</div>
+            <div class="modal-section">
+                <button class="button" onclick="openModal()">Open Extension</button>
+            </div>
+        </div>
         
-        <input type="text" id="lightning-address" placeholder="Enter Lightning Address (e.g., satoshi@getalby.com)">
-        
-        <button class="button" onclick="payLightning()">💳 Pay Lightning Address</button>
+        <div class="section">
+            <div class="section-title">Lightning Payment</div>
+            <div class="payment-section">
+                <div class="input-group">
+                    <div style="flex: 1;">
+                        <label class="label" for="lightning-address">Lightning Address</label>
+                        <input 
+                            type="text" 
+                            class="input-field" 
+                            id="lightning-address" 
+                            placeholder="satoshi@getalby.com"
+                        >
+                    </div>
+                    <button class="button primary-button" onclick="payLightning()">Pay</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
+        function claimToken() {
+            const tokenInput = document.getElementById('cashu-token');
+            const token = tokenInput.value.trim();
+            
+            if (!token) {
+                alert('Please enter a token to claim');
+                return;
+            }
+            
+            if (typeof window._cashu === 'undefined') {
+                alert('Cashu extension not detected');
+                return;
+            }
+            
+            // Add claim logic here when available in the extension API
+            console.log('Claiming token:', token);
+            alert('Token claim functionality will be implemented');
+        }
+
         function openModal() {
             if (typeof window._cashu === 'undefined') {
                 alert('Cashu extension not detected');
