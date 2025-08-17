@@ -1,4 +1,5 @@
 `npm install`
+`rm -rf .parcel-cache distribution` I've found that its often necessary to run this otherwise the caching is sometimes weird.
 `npm run watch`
 `npm install --global web-ext` (only only for the first time)
 `web-ext run -t chromium`
