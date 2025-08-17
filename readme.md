@@ -22,7 +22,10 @@ git clone https://github.com/kelbie/cashu.me
 npm install
 npm run dev
 ```
+
 In browser open up `https://localhost:8080`. You need to do this otherwise theres some security warning in the popup because of `https`.
+
+After chrome opens up click "Claim Token", these are feeless cashu tokens that are automatically created so you can have a balance in Cashu.me. 
 
 # TODO
 
