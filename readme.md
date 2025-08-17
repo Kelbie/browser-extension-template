@@ -1,5 +1,9 @@
 Disclaimer: I vibe coded this.
 
+
+https://github.com/user-attachments/assets/2cbef35e-0873-4911-af17-24a70e55c1d2
+
+
 # About
 
 This is mainly a proof of concept of how a Cashu.me wallet extension that I vibe coded. This would likely require some security consideration before getting merged into Cashu.me. If any experts on browser security with regard to browser extensions, iframes and post messages then your feedback is super appreciated.
