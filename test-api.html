@@ -252,6 +252,45 @@
             padding: 10px 16px;
             font-size: 12px;
         }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-top: 12px;
+            justify-content: flex-end;
+        }
+
+        .button-group .button {
+            flex-shrink: 0;
+        }
+
+        .comment-input-inline {
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .comment-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -273,7 +312,7 @@
                       class="token-input" 
                       id="cashu-token" 
                       placeholder="Enter your Cashu token here..."
-                  >cashuBo2FteBtodHRwczovL3Rlc3RudXQuY2FzaHUuc3BhY2VhdWNzYXRhdIGiYWlIAE_d6YvMRdJhcISkYWEQYXN4QGM3NDM0YTA3NGMwYjA4MTA1MzcxMWQxZTNkNjgxZDkwN2ViODdlNzJjOWM1N2U1NTQwODJjMjQ2MmNkYzdlMGVhY1ghAyX0XCl0cn-Xj_xOTMn6oPYIDV-NmUSOPXgmLJONqHNJYWSjYWVYIBibIOqJwRzlN7SUC7zne3xEyM63LXGy_fKkzV1JlWxrYXNYIOFXwhm6HTGrrPDdEyZFsxKq6ETkvhgj6nalVELXkw7aYXJYICyGzqQtG70AaY5KFa7n_zEI-qyM6qRp-0tzqnJnEwxmpGFhEGFzeEBkOGU4MDQ0MmM5MjZlZDdlNGFlMWYxZGQzOTBkNGQ0NjY5ZDkyYTU3NWU3ZmU5MTYyY2U0MWZiNzg4MWViZTMxYWNYIQOMPo-_BRDL3sBWd_d5sIBHTe5jWriywnpwtnpbcjdnJWFko2FlWCBrLjcrmFjbV8SuT6Bg2g5NxoE02rEO90-ySLtOcSXKwmFzWCDEV6g9g9rHGHx4jSF0gqZPRypFnnpF2FyV2JVcILl9EWFyWCA0afKH-lf6bm4B_ocWAvSJD9V8seP0cVopJQgqZ4VSu6RhYRBhc3hAZjNjYzU4MjhlMjAzMTM2YzMwY2YzM2ZhY2NlN2IyM2MwODA4MWY2YjI1YmIzNDdkZjUwZmM4MjExZjM1ZmVhNGFjWCECUJug1gg6NCV-O75lsQUTXyT9A3RvbrC7c24KtILVVK1hZKNhZVggktfp6i4Ri0pQPs3h_qj0YB2VqvMd4v599howRdR8ExFhc1ggdn5swd9DTKFsdeiJ18Rv6Op07P1Chnexo8jOfH3_zmhhclgg2Frp4QUBMeaHbYJDKt4Ok7huWD3P1Vc_HA6eODkLlsakYWECYXN4QDNjZDkyZTk2NTc1ZTVkYmU5NzNhNDYwN2M3YjA0MmFiMWYzM2NjOTUwYWVhYjY0YTc3ODliOWM4NDFjMzdlZjVhY1ghA1PF6iDR8lw_MqYNeJHYxXYRvBH1CTbGqzyStp3qxTqxYWSjYWVYIIl3ipikFzGVywDZ8rEJG3DJxm7hsPdClZtzGKVBwWWOYXNYIC7dIyR59mVVFTPK9DnojrepYlOzwtFCZpyZxrR6tMVrYXJYIK9orgPbPJgAJDsSlYnBwK81p0jNSsxPkol-C5HXv8K6</textarea>
+                  ></textarea>
                   <button class="claim-button" onclick="claimToken()">Claim</button>
               </div>
           </div>
@@ -300,20 +339,42 @@
         <div class="section">
             <div class="section-title">Quick Pay Examples</div>
             <div class="preset-addresses">
-                <div class="address-item">
+                                <div class="address-item">
                     <div class="address-info">
                         <div class="address-name">Calle</div>
                         <div class="address-value">calle@npub.cash</div>
+                        <div class="comment-input-inline">
+                            <input 
+                                type="text" 
+                                class="comment-input" 
+                                id="calle-comment" 
+                                placeholder="Add a comment (optional)..."
+                            >
+                        </div>
+                        <div class="button-group">
+                            <button class="button small-button" onclick="payLightningWithCommentIfProvided('calle@npub.cash')">Pay</button>
+                            <button class="button small-button primary-button" onclick="payLightningWithAmountAndCommentIfProvided('calle@npub.cash', 42)">42 sats</button>
+                        </div>
                     </div>
-                    <button class="button small-button" onclick="payLightning('calle@npub.cash')">Pay</button>
                 </div>
                 
                 <div class="address-item">
                     <div class="address-info">
                         <div class="address-name">KELBIE</div>
                         <div class="address-value">quiethorse9@primal.net</div>
+                        <div class="comment-input-inline">
+                            <input 
+                                type="text" 
+                                class="comment-input" 
+                                id="kelbie-comment" 
+                                placeholder="Add a comment (optional)..."
+                        >
+                        </div>
+                        <div class="button-group">
+                            <button class="button small-button" onclick="payLightningWithCommentIfProvided('quiethorse9@primal.net')">Pay</button>
+                            <button class="button small-button primary-button" onclick="payLightningWithAmountAndCommentIfProvided('quiethorse9@primal.net', 42)">42 sats</button>
+                        </div>
                     </div>
-                    <button class="button small-button" onclick="payLightning('quiethorse9@primal.net')">Pay</button>
                 </div>
             </div>
         </div>
@@ -361,6 +422,237 @@
             try {
                 const result = await window._cashu.payLightningAddress(address);
                 console.log('Payment result:', result);
+            } catch (error) {
+                alert('Payment failed: ' + error.message);
+                console.error('Payment error:', error);
+            }
+        }
+
+        async function payLightningWithAmount(address, amount) {
+            if (!address) {
+                alert('Please provide a Lightning address');
+                return;
+            }
+            
+            if (typeof window._cashu === 'undefined') {
+                alert('Cashu extension not detected');
+                return;
+            }
+            
+            try {
+                const result = await window._cashu.payLightningAddressWithAmount(address, amount);
+                console.log('Payment with amount result:', result);
+            } catch (error) {
+                alert('Payment failed: ' + error.message);
+                console.error('Payment error:', error);
+            }
+        }
+
+        async function payLightningWithComment(address, comment) {
+            if (!address) {
+                alert('Please provide a Lightning address');
+                return;
+            }
+            
+            if (!comment) {
+                alert('Please provide a comment');
+                return;
+            }
+            
+            if (typeof window._cashu === 'undefined') {
+                alert('Cashu extension not detected');
+                return;
+            }
+            
+            try {
+                const result = await window._cashu.payLightningAddressWithCommentOnly(address, comment);
+                console.log('Payment with comment result:', result);
+            } catch (error) {
+                alert('Payment failed: ' + error.message);
+                console.error('Payment error:', error);
+            }
+        }
+
+        async function payLightningWithAmountAndComment(address, amount, comment) {
+            if (!address) {
+                alert('Please provide a Lightning address');
+                return;
+            }
+            
+            if (!amount || amount <= 0) {
+                alert('Please provide a valid amount');
+                return;
+            }
+            
+            if (!comment) {
+                alert('Please provide a comment');
+                return;
+            }
+            
+            if (typeof window._cashu === 'undefined') {
+                alert('Cashu extension not detected');
+                return;
+            }
+            
+            try {
+                const result = await window._cashu.payLightningAddressWithAmount(address, amount, comment);
+                console.log('Payment with amount and comment result:', result);
+            } catch (error) {
+                alert('Payment failed: ' + error.message);
+                console.error('Payment error:', error);
+            }
+        }
+
+        async function payLightningWithCommentIfProvided(address) {
+            if (!address) {
+                alert('Please provide a Lightning address');
+                return;
+            }
+            
+            if (typeof window._cashu === 'undefined') {
+                alert('Cashu extension not detected');
+                return;
+            }
+            
+            // Get the comment from the appropriate input based on the address
+            let comment = '';
+            if (address === 'quiethorse9@primal.net') {
+                comment = document.getElementById('kelbie-comment').value.trim();
+            } else if (address === 'calle@npub.cash') {
+                comment = document.getElementById('calle-comment').value.trim();
+            }
+            
+            try {
+                if (comment) {
+                    const result = await window._cashu.payLightningAddressWithCommentOnly(address, comment);
+                    console.log('Payment with comment result:', result);
+                } else {
+                    const result = await window._cashu.payLightningAddress(address);
+                    console.log('Payment result:', result);
+                }
+            } catch (error) {
+                alert('Payment failed: ' + error.message);
+                console.error('Payment error:', error);
+            }
+        }
+
+        async function payLightningWithAmountAndCommentIfProvided(address, amount) {
+            if (!address) {
+                alert('Please provide a Lightning address');
+                return;
+            }
+            
+            if (!amount || amount <= 0) {
+                alert('Please provide a valid amount');
+                return;
+            }
+            
+            if (typeof window._cashu === 'undefined') {
+                alert('Cashu extension not detected');
+                return;
+            }
+            
+            // Get the comment from the appropriate input based on the address
+            let comment = '';
+            if (address === 'quiethorse9@primal.net') {
+                comment = document.getElementById('kelbie-comment').value.trim();
+            } else if (address === 'calle@npub.cash') {
+                comment = document.getElementById('calle-comment').value.trim();
+            }
+            
+            try {
+                if (comment) {
+                    const result = await window._cashu.payLightningAddressWithAmount(address, amount, comment);
+                    console.log('Payment with amount and comment result:', result);
+                } else {
+                    const result = await window._cashu.payLightningAddressWithAmountOnly(address, amount);
+                    console.log('Payment with amount only result:', result);
+                }
+            } catch (error) {
+                alert('Payment failed: ' + error.message);
+                console.error('Payment error:', error);
+            }
+        }
+
+        async function payPredefinedAmountOnly() {
+            const address = document.getElementById('predefined-address').value.trim();
+            const amount = parseInt(document.getElementById('predefined-amount').value);
+            
+            if (!address) {
+                alert('Please enter a Lightning address');
+                return;
+            }
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+            
+            if (typeof window._cashu === 'undefined') {
+                alert('Cashu extension not detected');
+                return;
+            }
+            
+            try {
+                const result = await window._cashu.payLightningAddressWithAmountOnly(address, amount);
+                console.log('Amount only payment result:', result);
+            } catch (error) {
+                alert('Payment failed: ' + error.message);
+                console.error('Payment error:', error);
+            }
+        }
+
+        async function payPredefinedCommentOnly() {
+            const address = document.getElementById('predefined-address').value.trim();
+            const comment = document.getElementById('predefined-comment').value.trim();
+            
+            if (!address) {
+                alert('Please enter a Lightning address');
+                return;
+            }
+            
+            if (!comment) {
+                alert('Please enter a comment');
+                return;
+            }
+            
+            if (typeof window._cashu === 'undefined') {
+                alert('Cashu extension not detected');
+                return;
+            }
+            
+            try {
+                const result = await window._cashu.payLightningAddressWithCommentOnly(address, comment);
+                console.log('Comment only payment result:', result);
+            } catch (error) {
+                alert('Payment failed: ' + error.message);
+                console.error('Payment error:', error);
+            }
+        }
+
+        async function payPredefinedAmountAndComment() {
+            const address = document.getElementById('predefined-address').value.trim();
+            const amount = parseInt(document.getElementById('predefined-amount').value);
+            const comment = document.getElementById('predefined-comment').value.trim();
+            
+            if (!address) {
+                alert('Please enter a Lightning address');
+                return;
+            }
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+            
+            if (typeof window._cashu === 'undefined') {
+                alert('Cashu extension not detected');
+                return;
+            }
+            
+            try {
+                const result = await window._cashu.payLightningAddressWithAmount(address, amount, comment);
+                console.log('Amount and comment payment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
                 console.error('Payment error:', error);

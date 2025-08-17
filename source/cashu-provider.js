@@ -39,9 +39,27 @@
 	};
 
 	// Add WebLN-like payment methods
-	window._cashu.payLightningAddress = async function(addrOrLnurl) {
-		console.log('💈 payLightningAddress called with:', addrOrLnurl);
-		await window._cashu.popup({action: 'lnpay', params: {addrOrLnurl: addrOrLnurl}});
+	window._cashu.payLightningAddress = async function(addrOrLnurl, amount, comment) {
+		console.log('💈 payLightningAddress called with:', addrOrLnurl, 'amount:', amount, 'comment:', comment);
+		await window._cashu.popup({action: 'lnpay', params: {addrOrLnurl: addrOrLnurl, amount: amount, comment: comment}});
+	};
+
+	// Add method for paying with predefined amount and comment
+	window._cashu.payLightningAddressWithAmount = async function(addrOrLnurl, amount, comment) {
+		console.log('💈 payLightningAddressWithAmount called with:', addrOrLnurl, 'amount:', amount, 'comment:', comment);
+		await window._cashu.popup({action: 'lnpay', params: {addrOrLnurl: addrOrLnurl, amount: amount, comment: comment}});
+	};
+
+	// Add method for paying with predefined amount only
+	window._cashu.payLightningAddressWithAmountOnly = async function(addrOrLnurl, amount) {
+		console.log('💈 payLightningAddressWithAmountOnly called with:', addrOrLnurl, 'amount:', amount);
+		await window._cashu.popup({action: 'lnpay', params: {addrOrLnurl: addrOrLnurl, amount: amount}});
+	};
+
+	// Add method for paying with predefined comment only
+	window._cashu.payLightningAddressWithCommentOnly = async function(addrOrLnurl, comment) {
+		console.log('💈 payLightningAddressWithCommentOnly called with:', addrOrLnurl, 'comment:', comment);
+		await window._cashu.popup({action: 'lnpay', params: {addrOrLnurl: addrOrLnurl, comment: comment}});
 	};
 
   window._cashu.claimToken = async function(token) {
