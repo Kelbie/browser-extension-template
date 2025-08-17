@@ -59,6 +59,21 @@ window.addEventListener('message', async (message) => {
 	}
 });
 
+// Listen for messages from background (to forward back to the webpage)
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+	if (!message) return;
+	if (message.action !== 'frontendEvent') return;
+
+	const targetOrigin = getTargetOrigin();
+	window.postMessage({
+		id: message.id,
+		ext: 'cashu',
+		type: 'frontendEvent',
+		event: message.event,
+		message: message.message
+	}, targetOrigin);
+});
+
 // Helper function to get target origin for postMessage
 function getTargetOrigin() {
 	// Handle different origin types for postMessage
