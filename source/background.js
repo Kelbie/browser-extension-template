@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 					params: message.params,
 					id: message.id
 				});
-			}, 100);
+			}, 200);
 		}
 	}
 
@@ -38,6 +38,26 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       }
     } catch (err) {
       console.warn('💈 Failed to forward frontendEvent to content script:', err);
+    }
+  }
+
+  // Forward extension responses coming back from the popup (iframe results -> popup -> background)
+  if (message.action === 'cashu.response') {
+    console.log('💈 Background received cashu.response:', message);
+    console.log('💈 Background responseData:', message.responseData);
+    
+    try {
+      const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+      if (tabs && tabs[0] && tabs[0].id) {
+        // Forward the complete response data
+        await chrome.tabs.sendMessage(tabs[0].id, {
+          action: 'cashu.response',
+          responseData: message.responseData,
+          id: message.id,
+        });
+      }
+    } catch (err) {
+      console.warn('💈 Failed to forward cashu.response to content script:', err);
     }
   }
 });

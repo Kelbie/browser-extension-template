@@ -18,6 +18,21 @@ document.addEventListener("DOMContentLoaded", () => {
 				payload: data.payload,
 				id: data.id,
 			});
+			return;
+		}
+
+		// Handle extension responses (results from iframe actions) - support both old and new formats
+		if (data.type === "cashu.response" || data.type === "cashu.response") {
+			console.log("💈 Popup received response from iframe:", data);
+			console.log("💈 Response type:", data.type);
+			
+			// Forward the complete response data to background
+			chrome.runtime.sendMessage({
+				action: "cashu.response",
+				responseData: data, // Forward the complete response
+				id: data.id,
+			});
+			return;
 		}
 	});
 

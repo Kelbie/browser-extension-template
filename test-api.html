@@ -1,961 +1,1013 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cashu Extension Test</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cashu Extension Test</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-            color: #e5e5e5;
-            min-height: 100vh;
-            padding: 24px;
-        }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+      color: #e5e5e5;
+      min-height: 100vh;
+      padding: 24px;
+    }
 
-        .container {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 32px;
-            width: 100%;
-        }
+    .container {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 32px;
+      width: 100%;
+    }
 
-        h1 {
-            margin-bottom: 24px;
-            color: #ffffff;
-            font-size: 28px;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-        }
+    h1 {
+      margin-bottom: 24px;
+      color: #ffffff;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+    }
 
-        .section {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
-        }
+    .section {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
 
-        .section-title {
-            font-size: 18px;
-            font-weight: 500;
-            color: #ffffff;
-            margin-bottom: 16px;
-            letter-spacing: -0.2px;
-        }
+    .section-title {
+      font-size: 18px;
+      font-weight: 500;
+      color: #ffffff;
+      margin-bottom: 16px;
+      letter-spacing: -0.2px;
+    }
 
-        .token-section {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+    .token-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
 
-        .token-input-group {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+    .token-input-group {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
 
-        .token-input {
-            flex: 1;
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-            font-size: 13px;
-            padding: 16px 80px 16px 16px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(0, 0, 0, 0.3);
-            color: #e5e5e5;
-            resize: vertical;
-            min-height: 120px;
-            line-height: 1.5;
-            transition: all 0.2s ease;
-        }
+    .token-input {
+      flex: 1;
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+      font-size: 13px;
+      padding: 16px 80px 16px 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(0, 0, 0, 0.3);
+      color: #e5e5e5;
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.5;
+      transition: all 0.2s ease;
+    }
 
-        .token-input:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.4);
-        }
+    .token-input:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.4);
+    }
 
-        .token-input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
+    .token-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
 
-        .claim-button {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            background: linear-gradient(135deg, #404040 0%, #353535 100%);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            letter-spacing: -0.1px;
-            z-index: 10;
-        }
+    .claim-button {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: linear-gradient(135deg, #404040 0%, #353535 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      letter-spacing: -0.1px;
+      z-index: 10;
+    }
 
-        .claim-button:hover {
-            background: linear-gradient(135deg, #4a4a4a 0%, #3f3f3f 100%);
-            border-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-1px);
-        }
+    .claim-button:hover {
+      background: linear-gradient(135deg, #4a4a4a 0%, #3f3f3f 100%);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-1px);
+    }
 
-        .claim-button:active {
-            transform: translateY(0);
-        }
+    .claim-button:active {
+      transform: translateY(0);
+    }
 
-        .button {
-            background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 14px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            letter-spacing: -0.1px;
-        }
+    .button {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      letter-spacing: -0.1px;
+    }
 
-        .button:hover {
-            background: linear-gradient(135deg, #333333 0%, #282828 100%);
-            border-color: rgba(255, 255, 255, 0.18);
-            transform: translateY(-1px);
-        }
+    .button:hover {
+      background: linear-gradient(135deg, #333333 0%, #282828 100%);
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px);
+    }
 
-        .button:active {
-            transform: translateY(0);
-        }
+    .button:active {
+      transform: translateY(0);
+    }
 
-        .primary-button {
-            background: linear-gradient(135deg, #404040 0%, #353535 100%);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
+    .primary-button {
+      background: linear-gradient(135deg, #404040 0%, #353535 100%);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
 
-        .primary-button:hover {
-            background: linear-gradient(135deg, #4a4a4a 0%, #3f3f3f 100%);
-            border-color: rgba(255, 255, 255, 0.25);
-        }
+    .primary-button:hover {
+      background: linear-gradient(135deg, #4a4a4a 0%, #3f3f3f 100%);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
 
-        .modal-section {
-            display: flex;
-            justify-content: center;
-        }
+    .modal-section {
+      display: flex;
+      justify-content: center;
+    }
 
-        .payment-section {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+    .payment-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
 
-        .input-group {
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-        }
+    .input-group {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
 
-        .input-field {
-            flex: 1;
-            width: 100%;
+    .input-field {
+      flex: 1;
+      width: 100%;
 
-            padding: 14px 16px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(0, 0, 0, 0.3);
-            color: #ffffff;
-            font-size: 14px;
-            transition: all 0.2s ease;
-        }
+      padding: 14px 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(0, 0, 0, 0.3);
+      color: #ffffff;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
 
-        .input-field:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.4);
-        }
+    .input-field:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.4);
+    }
 
-        .input-field::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
+    .input-field::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
 
-        .label {
-            display: block;
-            margin-bottom: 8px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 13px;
-            font-weight: 500;
-            letter-spacing: -0.1px;
-        }
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: -0.1px;
+    }
 
-        .preset-addresses {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+    .preset-addresses {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
-        .address-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
-            transition: all 0.2s ease;
-        }
+    .address-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
 
-        .address-item:hover {
-            background: rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.12);
-        }
+    .address-item:hover {
+      background: rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
 
-        .address-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+    .address-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
 
-        .address-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: #ffffff;
-        }
+    .address-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #ffffff;
+    }
 
-        .address-value {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-        }
+    .address-value {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+    }
 
-        .small-button {
-            padding: 10px 16px;
-            font-size: 12px;
-        }
+    .small-button {
+      padding: 10px 16px;
+      font-size: 12px;
+    }
 
-        .button-group {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            align-items: center;
-            margin-top: 12px;
-            justify-content: flex-end;
-        }
+    .button-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 12px;
+      justify-content: flex-end;
+    }
 
-        .button-group .button {
-            flex-shrink: 0;
-        }
+    .button-group .button {
+      flex-shrink: 0;
+    }
 
-        .comment-input-inline {
-            margin-top: 8px;
-            width: 100%;
-        }
+    .comment-input-inline {
+      margin-top: 8px;
+      width: 100%;
+    }
 
-        .comment-input {
-            width: 100%;
-            padding: 8px 10px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(0, 0, 0, 0.3);
-            color: #ffffff;
-            font-size: 13px;
-            transition: all 0.2s ease;
-        }
+    .comment-input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(0, 0, 0, 0.3);
+      color: #ffffff;
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
 
-        .comment-input:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.4);
-        }
+    .comment-input:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.4);
+    }
 
-        .comment-input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
+    .comment-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
 
-        /* Floating Messenger */
-        .floating-messenger {
-            position: fixed;
-            right: 16px;
-            bottom: 16px;
-            width: 360px;
-            max-height: 50vh;
-            display: flex;
-            flex-direction: column;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
-            backdrop-filter: blur(12px);
-            overflow: hidden;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
-            z-index: 9999;
-        }
-        .floating-header {
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(0,0,0,0.3);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-        .floating-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #ffffff;
-            letter-spacing: -0.2px;
-        }
-        .floating-actions button {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #e5e5e5;
-            font-size: 11px;
-            padding: 4px 8px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .floating-list {
-            padding: 10px 12px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .floating-item {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            background: rgba(0,0,0,0.25);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 8px;
-            padding: 8px 10px;
-        }
-        .floating-meta {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            font-size: 11px;
-            color: rgba(255,255,255,0.7);
-        }
-        .floating-meta .event {
-            color: #ffffff;
-            font-weight: 600;
-        }
-        .floating-text {
-            font-size: 12px;
-            color: #e5e5e5;
-            word-break: break-word;
-        }
-        .floating-json {
-            font-family: 'SF Mono','Monaco','Inconsolata','Roboto Mono', monospace;
-            font-size: 11px;
-            color: #cbd5e1;
-            background: rgba(0,0,0,0.35);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 6px;
-            padding: 8px;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
+    /* Floating Messenger */
+    .floating-messenger {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      width: 360px;
+      max-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+    }
 
-        /* Two-column layout */
-        .columns {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 24px;
-            align-items: start;
-        }
-        .left-col { min-width: 0; }
-        .right-col { position: sticky; top: 24px; align-self: start; }
-        @media (max-width: 900px) {
-            .columns { display: block; }
-            .right-col { position: static; }
-        }
-        .code-card {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.10);
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 16px;
-        }
-        .code-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 8px;
-        }
-        .code-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-        .copy-btn {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #e5e5e5;
-            font-size: 11px;
-            padding: 4px 8px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        pre.code-block {
-            margin: 0;
-            padding: 12px;
-            background: rgba(0,0,0,0.35);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 8px;
-            overflow: auto;
-            color: #d1d5db;
-            font-family: 'SF Mono','Monaco','Inconsolata','Roboto Mono', monospace;
-            font-size: 12px;
-        }
-    </style>
+    .floating-header {
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .floating-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: -0.2px;
+    }
+
+    .floating-actions button {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #e5e5e5;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .floating-list {
+      padding: 10px 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .floating-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+
+    .floating-meta {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .floating-meta .event {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .floating-text {
+      font-size: 12px;
+      color: #e5e5e5;
+      word-break: break-word;
+    }
+
+    .floating-json {
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+      font-size: 11px;
+      color: #cbd5e1;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 8px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* Two-column layout */
+    .columns {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .left-col {
+      min-width: 0;
+    }
+
+    .right-col {
+      position: sticky;
+      top: 24px;
+      align-self: start;
+    }
+
+    @media (max-width: 900px) {
+      .columns {
+        display: block;
+      }
+
+      .right-col {
+        position: static;
+      }
+    }
+
+    .code-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .code-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .code-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #e5e5e5;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    pre.code-block {
+      margin: 0;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      overflow: auto;
+      color: #d1d5db;
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+      font-size: 12px;
+    }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 12px;
+      max-width: 400px;
+    }
+
+    .toast {
+      background: rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 16px 20px;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 500;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      transform: translateX(-100%);
+      opacity: 0;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .toast.success {
+      border-color: rgba(34, 197, 94, 0.4);
+      background: rgba(34, 197, 94, 0.1);
+    }
+
+    .toast.success::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #22c55e;
+    }
+
+    .toast.error {
+      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .toast.error::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #ef4444;
+    }
+
+    .toast.info {
+      border-color: rgba(59, 130, 246, 0.4);
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    .toast.info::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #3b82f6;
+    }
+
+    .toast-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .toast-message {
+      font-weight: 400;
+      opacity: 0.9;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .toast-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      cursor: pointer;
+      font-size: 18px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .toast-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.9);
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Cashu Extension Test</h1>
+  <div class="container">
+    <h1>Cashu Extension Test</h1>
 
-        <div class="columns">
-            <div class="left-col">
-                <div class="section">
-                    <div class="section-title">Extension Control</div>
-                    <div class="modal-section">
-                        <button class="button" onclick="openModal()">Open Extension</button>
-                    </div>
-                </div>
+    <div class="columns">
+      <div class="left-col">
+        <div class="section">
+          <div class="section-title">Extension Control</div>
+          <div class="modal-section">
+            <button class="button" onclick="openModal()">Open Extension</button>
+          </div>
+        </div>
 
-                <div class="section">
-                  <div class="section-title">Claim Token</div>
-                  <div class="token-section">
-                      <div class="token-input-group">
-                          <textarea 
-                              class="token-input" 
-                              id="cashu-token" 
-                              placeholder="Enter your Cashu token here..."
-                          ></textarea>
-                          <button class="claim-button" onclick="claimToken()">Claim</button>
-                      </div>
-                  </div>
-              </div>
-                
-                <div class="section">
-                    <div class="section-title">Custom Lightning Payment</div>
-                    <div class="payment-section">
-                        <div class="input-group">
-                            <div style="flex: 1;">
-                                <label class="label" for="lightning-address">Lightning Address</label>
-                                <input 
-                                    type="text" 
-                                    class="input-field" 
-                                    id="lightning-address" 
-                                    placeholder="satoshi@gmx.com"
-                                >
-                            </div>
-                            <button class="button primary-button" onclick="payLightning()">Pay</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="section-title">Quick Pay Examples</div>
-                    <div class="preset-addresses">
-                                        <div class="address-item">
-                            <div class="address-info">
-                                <div class="address-name">Calle</div>
-                                <div class="address-value">calle@npub.cash</div>
-                                <div class="comment-input-inline">
-                                    <input 
-                                        type="text" 
-                                        class="comment-input" 
-                                        id="calle-comment" 
-                                        placeholder="Add a comment (optional)..."
-                                    >
-                                </div>
-                                <div class="button-group">
-                                    <button class="button small-button" onclick="payLightningWithCommentIfProvided('calle@npub.cash')">Pay</button>
-                                    <button class="button small-button primary-button" onclick="payLightningWithAmountAndCommentIfProvided('calle@npub.cash', 42)">42 sats</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="address-item">
-                            <div class="address-info">
-                                <div class="address-name">KELBIE</div>
-                                <div class="address-value">quiethorse9@primal.net</div>
-                                <div class="comment-input-inline">
-                                    <input 
-                                        type="text" 
-                                        class="comment-input" 
-                                        id="kelbie-comment" 
-                                        placeholder="Add a comment (optional)..."
-                                >
-                                </div>
-                                <div class="button-group">
-                                    <button class="button small-button" onclick="payLightningWithCommentIfProvided('quiethorse9@primal.net')">Pay</button>
-                                    <button class="button small-button primary-button" onclick="payLightningWithAmountAndCommentIfProvided('quiethorse9@primal.net', 42)">42 sats</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="section">
+          <div class="section-title">Claim Token</div>
+          <div class="token-section">
+            <div class="token-input-group">
+              <textarea class="token-input" id="cashu-token" placeholder="Enter your Cashu token here..."></textarea>
+              <button class="claim-button" onclick="claimToken()">Claim</button>
             </div>
-            <div class="right-col">
-                <div class="code-card">
-                    <div class="code-title">API (Page → Extension)</div>
-                    <div class="code-actions">
-                        <button class="copy-btn" data-copy-target="#code-page-to-extension">Copy</button>
-                    </div>
-                    <pre class="code-block" id="code-page-to-extension">// Using injected helper
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Custom Lightning Payment</div>
+          <div class="payment-section">
+            <div class="input-group">
+              <div style="flex: 1;">
+                <label class="label" for="lightning-address">Lightning Address</label>
+                <input type="text" class="input-field" id="lightning-address" placeholder="satoshi@gmx.com">
+              </div>
+              <button class="button primary-button" onclick="payLightning({})">Pay</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Quick Pay Examples</div>
+          <div class="preset-addresses">
+            <div class="address-item">
+              <div class="address-info">
+                <div class="address-name">Calle</div>
+                <div class="address-value">calle@npub.cash</div>
+                <div class="comment-input-inline">
+                  <input type="text" class="comment-input" id="calle-comment" placeholder="Add a comment (optional)...">
+                </div>
+                <div class="button-group">
+                  <button class="button small-button"
+                    onclick="payLightning({ addrOrLnurl: 'calle@npub.cash', comment: document.getElementById('calle-comment').value.trim() || undefined })">Pay</button>
+                  <button class="button small-button primary-button"
+                    onclick="payLightning({ addrOrLnurl: 'calle@npub.cash', amount: 42, comment: document.getElementById('calle-comment').value.trim() || undefined })">42 sats</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="address-item">
+              <div class="address-info">
+                <div class="address-name">KELBIE</div>
+                <div class="address-value">quiethorse9@primal.net</div>
+                <div class="comment-input-inline">
+                  <input type="text" class="comment-input" id="kelbie-comment"
+                    placeholder="Add a comment (optional)...">
+                </div>
+                <div class="button-group">
+                  <button class="button small-button"
+                    onclick="payLightning({ addrOrLnurl: 'quiethorse9@primal.net', comment: document.getElementById('kelbie-comment').value.trim() || undefined })">Pay</button>
+                  <button class="button small-button primary-button"
+                    onclick="payLightning({ addrOrLnurl: 'quiethorse9@primal.net', amount: 42, comment: document.getElementById('kelbie-comment').value.trim() || undefined })">42 sats</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right-col">
+        <div class="code-card">
+          <div class="code-title">API (Page → Extension)</div>
+          <div class="code-actions">
+            <button class="copy-btn" data-copy-target="#code-page-to-extension">Copy</button>
+          </div>
+          <pre class="code-block" id="code-page-to-extension">// Using injected helper
 // Open extension popup
-window._cashu.popup();
+const result = await window._cashu.popup();
 
 // Claim token (object parameter only)
-window._cashu.claimToken({ token: 'cashuB...' });
+const claimResult = await window._cashu.claimToken({ token: 'cashuB...' });
 
 // Pay lightning (object parameter only)
-window._cashu.payln({ addrOrLnurl: 'user@example.com' });
-window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42 });
-window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Thanks!' });
+const payResult1 = await window._cashu.payln({ addrOrLnurl: 'user@example.com' });
+const payResult2 = await window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42 });
+const payResult3 = await window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Thanks!' });
 </pre>
-                </div>
-            </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Floating Messenger Panel -->
-    <div class="floating-messenger" id="floating-messenger">
-        <div class="floating-header">
-            <div class="floating-title">Messages</div>
-            <div class="floating-actions">
-                <button id="clear-messages">Clear</button>
-            </div>
-        </div>
-        <div class="floating-list" id="floating-messenger-list"></div>
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Floating Messenger Panel -->
+  <div class="floating-messenger" id="floating-messenger">
+    <div class="floating-header">
+      <div class="floating-title">Messages</div>
+      <div class="floating-actions">
+        <button id="clear-messages">Clear</button>
+      </div>
     </div>
+    <div class="floating-list" id="floating-messenger-list"></div>
+  </div>
 
-    <!-- Auto-generate a demo v4 token on page load -->
-    <script type="module">
-        import { CashuMint, CashuWallet, getEncodedTokenV4, MintQuoteState } from 'https://esm.sh/@cashu/cashu-ts@latest';
+  <!-- Auto-generate a demo v4 token on page load -->
+  <script type="module">
+    import { CashuMint, CashuWallet, getEncodedTokenV4, MintQuoteState } from 'https://esm.sh/@cashu/cashu-ts@latest';
 
-        const MINT_URL = 'https://nofees.testnut.cashu.space';
+    const MINT_URL = 'https://nofees.testnut.cashu.space';
 
-        async function mintCashuTokenV4(amountSat = 1000, payInvoice) {
-            const mint = new CashuMint(MINT_URL);
-            const keys = (await mint.getKeys()).keysets;
-            const key = keys.find((k) => k.unit === 'sat');
-            const wallet = new CashuWallet(mint, { unit: 'sat', keys: key });
+    async function mintCashuTokenV4(amountSat = 1000, payInvoice) {
+      const mint = new CashuMint(MINT_URL);
+      const keys = (await mint.getKeys()).keysets;
+      const key = keys.find((k) => k.unit === 'sat');
+      const wallet = new CashuWallet(mint, { unit: 'sat', keys: key });
 
-            const quoteRes = await wallet.createMintQuote(amountSat);
-            const quoteId = quoteRes.quote;
-            const bolt11 = quoteRes.request;
+      const quoteRes = await wallet.createMintQuote(amountSat);
+      const quoteId = quoteRes.quote;
+      const bolt11 = quoteRes.request;
 
-            if (payInvoice) {
-                await payInvoice(bolt11, amountSat);
-            } else {
-                console.log('Pay this invoice to mint:', bolt11);
-            }
+      if (payInvoice) {
+        await payInvoice(bolt11, amountSat);
+      } else {
+        console.log('Pay this invoice to mint:', bolt11);
+      }
 
-            const deadline = Date.now() + 60_000;
-            while (true) {
-                const status = await wallet.checkMintQuote(quoteId);
-                if (status.state === MintQuoteState.PAID) break;
-                if (Date.now() > deadline) throw new Error('Mint quote not paid before timeout.');
-                await new Promise(r => setTimeout(r, 1500));
-            }
+      const deadline = Date.now() + 60_000;
+      while (true) {
+        const status = await wallet.checkMintQuote(quoteId);
+        if (status.state === MintQuoteState.PAID) break;
+        if (Date.now() > deadline) throw new Error('Mint quote not paid before timeout.');
+        await new Promise(r => setTimeout(r, 1500));
+      }
 
-            const proofs = await wallet.mintProofs(amountSat, quoteId, { keysetId: key.id });
-            const token = { proofs, mint: MINT_URL, unit: 'sat' };
-            const encoded = getEncodedTokenV4(token);
-            return encoded;
+      const proofs = await wallet.mintProofs(amountSat, quoteId, { keysetId: key.id });
+      const token = { proofs, mint: MINT_URL, unit: 'sat' };
+      const encoded = getEncodedTokenV4(token);
+      return encoded;
+    }
+
+    async function initDemoToken() {
+      const textarea = document.getElementById('cashu-token');
+      if (!textarea) return;
+      const originalPlaceholder = textarea.placeholder;
+      try {
+        textarea.placeholder = 'Generating demo Cashu token...';
+        textarea.value = '';
+        textarea.disabled = true;
+        const token = await mintCashuTokenV4(1000);
+        textarea.value = token;
+      } catch (err) {
+        console.error('Failed to mint demo token:', err);
+        textarea.placeholder = 'Failed to generate token. Try again later.';
+      } finally {
+        textarea.disabled = false;
+        if (!textarea.value) textarea.placeholder = originalPlaceholder;
+      }
+    }
+
+    // Kick off on load
+    window.addEventListener('DOMContentLoaded', initDemoToken);
+  </script>
+
+  <script>
+    // Messenger listener: log messages to floating panel
+    window.addEventListener('message', (event) => {
+      if (event.source !== window) return;
+      const data = event.data;
+      if (!data || data.ext !== 'cashu') return;
+      if (data.type !== 'frontendEvent') return;
+
+      // Append to floating messenger history
+      appendToFloatingMessenger(data);
+    });
+
+    function appendToFloatingMessenger(data) {
+      const list = document.getElementById('floating-messenger-list');
+      if (!list) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'floating-item';
+
+      const meta = document.createElement('div');
+      meta.className = 'floating-meta';
+
+      const timeEl = document.createElement('span');
+      timeEl.textContent = new Date().toLocaleTimeString();
+      const eventEl = document.createElement('span');
+      eventEl.className = 'event';
+      eventEl.textContent = data.event || 'event';
+      const levelEl = document.createElement('span');
+      levelEl.textContent = data.payload && data.payload.level ? `[${data.payload.level}]` : '';
+
+      meta.appendChild(timeEl);
+      meta.appendChild(eventEl);
+      if (levelEl.textContent) meta.appendChild(levelEl);
+
+      const text = document.createElement('div');
+      text.className = 'floating-text';
+      text.textContent = data.message || '';
+
+      wrapper.appendChild(meta);
+      if (text.textContent) wrapper.appendChild(text);
+
+      // Try to show payload JSON prettily
+      let payloadObj = null;
+      if (data.payload && typeof data.payload === 'object') {
+        payloadObj = data.payload;
+        // If payload.message looks like JSON, expand that for readability
+        if (typeof payloadObj.message === 'string') {
+          try {
+            const maybe = JSON.parse(payloadObj.message);
+            payloadObj.expanded = maybe;
+          } catch (_) { }
         }
-
-        async function initDemoToken() {
-            const textarea = document.getElementById('cashu-token');
-            if (!textarea) return;
-            const originalPlaceholder = textarea.placeholder;
-            try {
-                textarea.placeholder = 'Generating demo Cashu token...';
-                textarea.value = '';
-                textarea.disabled = true;
-                const token = await mintCashuTokenV4(1000);
-                textarea.value = token;
-            } catch (err) {
-                console.error('Failed to mint demo token:', err);
-                textarea.placeholder = 'Failed to generate token. Try again later.';
-            } finally {
-                textarea.disabled = false;
-                if (!textarea.value) textarea.placeholder = originalPlaceholder;
-            }
+      }
+      if (payloadObj) {
+        const pre = document.createElement('pre');
+        pre.className = 'floating-json';
+        try {
+          const toShow = payloadObj.expanded ?? payloadObj;
+          pre.textContent = JSON.stringify(toShow, null, 2);
+        } catch (e) {
+          pre.textContent = String(payloadObj);
         }
+        wrapper.appendChild(pre);
+      }
 
-        // Kick off on load
-        window.addEventListener('DOMContentLoaded', initDemoToken);
-    </script>
+      list.appendChild(wrapper);
+      // Keep scroll at bottom
+      list.scrollTop = list.scrollHeight;
+    }
 
-    <script>
-        // Messenger listener: log messages to floating panel
-        window.addEventListener('message', (event) => {
-            if (event.source !== window) return;
-            const data = event.data;
-            if (!data || data.ext !== 'cashu') return;
-            if (data.type !== 'frontendEvent') return;
+    document.getElementById('clear-messages').addEventListener('click', () => {
+      const list = document.getElementById('floating-messenger-list');
+      if (list) list.innerHTML = '';
+    });
 
-            // Append to floating messenger history
-            appendToFloatingMessenger(data);
-        });
+    // Toast notification system
+    function showToast(message, type = 'info', title = '', duration = 5000, source = 'client') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
 
-        function appendToFloatingMessenger(data) {
-            const list = document.getElementById('floating-messenger-list');
-            if (!list) return;
+      const toastId = 'toast-' + Date.now();
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.id = toastId;
 
-            const wrapper = document.createElement('div');
-            wrapper.className = 'floating-item';
+      // Add source indicator
+      const sourceIcon = source === 'extension' ? '🔌' : '💻';
+      const sourceLabel = source === 'extension' ? 'Extension' : 'Client';
+      
+      let titleHtml = title ? `<div class="toast-title">${sourceIcon} ${sourceLabel} • ${title}</div>` : `<div class="toast-title">${sourceIcon} ${sourceLabel}</div>`;
 
-            const meta = document.createElement('div');
-            meta.className = 'floating-meta';
+      toast.innerHTML = `
+                ${titleHtml}
+                <div class="toast-message">${message}</div>
+                <button class="toast-close" onclick="removeToast('${toastId}')">&times;</button>
+            `;
 
-            const timeEl = document.createElement('span');
-            timeEl.textContent = new Date().toLocaleTimeString();
-            const eventEl = document.createElement('span');
-            eventEl.className = 'event';
-            eventEl.textContent = data.event || 'event';
-            const levelEl = document.createElement('span');
-            levelEl.textContent = data.payload && data.payload.level ? `[${data.payload.level}]` : '';
+      container.appendChild(toast);
 
-            meta.appendChild(timeEl);
-            meta.appendChild(eventEl);
-            if (levelEl.textContent) meta.appendChild(levelEl);
+      // Trigger animation
+      setTimeout(() => {
+        toast.classList.add('show');
+      }, 10);
 
-            const text = document.createElement('div');
-            text.className = 'floating-text';
-            text.textContent = data.message || '';
+      // Auto remove after duration
+      setTimeout(() => {
+        removeToast(toastId);
+      }, duration);
 
-            wrapper.appendChild(meta);
-            if (text.textContent) wrapper.appendChild(text);
+      return toastId;
+    }
 
-            // Try to show payload JSON prettily
-            let payloadObj = null;
-            if (data.payload && typeof data.payload === 'object') {
-                payloadObj = data.payload;
-                // If payload.message looks like JSON, expand that for readability
-                if (typeof payloadObj.message === 'string') {
-                    try {
-                        const maybe = JSON.parse(payloadObj.message);
-                        payloadObj.expanded = maybe;
-                    } catch (_) {}
-                }
-            }
-            if (payloadObj) {
-                const pre = document.createElement('pre');
-                pre.className = 'floating-json';
-                try {
-                    const toShow = payloadObj.expanded ?? payloadObj;
-                    pre.textContent = JSON.stringify(toShow, null, 2);
-                } catch (e) {
-                    pre.textContent = String(payloadObj);
-                }
-                wrapper.appendChild(pre);
-            }
+    function removeToast(toastId) {
+      const toast = document.getElementById(toastId);
+      if (!toast) return;
 
-            list.appendChild(wrapper);
-            // Keep scroll at bottom
-            list.scrollTop = list.scrollHeight;
+      toast.classList.remove('show');
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.parentNode.removeChild(toast);
         }
+      }, 300);
+    }
 
-        document.getElementById('clear-messages').addEventListener('click', () => {
-            const list = document.getElementById('floating-messenger-list');
-            if (list) list.innerHTML = '';
-        });
+    // Convenience functions
+    function showSuccess(message, title = 'Success', source = 'client') {
+      return showToast(message, 'success', title, 5000, source);
+    }
 
-        function claimToken() {
-            const tokenInput = document.getElementById('cashu-token');
-            const token = tokenInput.value.trim();
-            
-            if (!token) {
-                alert('Please enter a token to claim');
-                return;
-            }
-            
-            if (typeof window._cashu === 'undefined') {
-                alert('Cashu extension not detected');
-                return;
-            }
-            
-            window._cashu.claimToken({ token });
-        }
+    function showError(message, title = 'Error', source = 'client') {
+      return showToast(message, 'error', title, 5000, source);
+    }
 
-        function openModal() {
-            if (typeof window._cashu === 'undefined') {
-                alert('Cashu extension not detected');
-                return;
-            }
-            window._cashu.popup();
-        }
+    function showInfo(message, title = 'Info', source = 'client') {
+      return showToast(message, 'info', title, 5000, source);
+    }
 
-        async function payLightning(propAddress) {
-            const address = propAddress || document.getElementById('lightning-address').value.trim();
-            
-            if (!address) {
-                alert('Please enter a Lightning address');
-                return;
-            }
-            
-            if (typeof window._cashu === 'undefined') {
-                alert('Cashu extension not detected');
-                return;
-            }
-            
-            try {
-                const result = await window._cashu.payln({ addrOrLnurl: address });
-                console.log('Payment result:', result);
-            } catch (error) {
-                alert('Payment failed: ' + error.message);
-                console.error('Payment error:', error);
-            }
-        }
+    // Helper function to handle extension responses and show appropriate toasts
+    function handleExtensionResponse(result, actualId) {
+      console.log('💈 Extension result:', result);
+      console.log('💈 Result keys:', result ? Object.keys(result) : 'no result');
+      console.log('💈 Result type:', typeof result);
 
-        async function payLightningWithAmount(address, amount) {
-            if (!address) {
-                alert('Please provide a Lightning address');
-                return;
-            }
-            
-            if (typeof window._cashu === 'undefined') {
-                alert('Cashu extension not detected');
-                return;
-            }
-            
-            try {
-                const result = await window._cashu.payln({ addrOrLnurl: address, amount });
-                console.log('Payment with amount result:', result);
-            } catch (error) {
-                alert('Payment failed: ' + error.message);
-                console.error('Payment error:', error);
-            }
-        }
+      // Handle new format: extract message from action or payload
+      let message = 'Operation completed successfully';
 
-        async function payLightningWithComment(address, comment) {
-            if (!address) {
-                alert('Please provide a Lightning address');
-                return;
-            }
-            
-            if (!comment) {
-                alert('Please provide a comment');
-                return;
-            }
-            
-            if (typeof window._cashu === 'undefined') {
-                alert('Cashu extension not detected');
-                return;
-            }
-            
-            try {
-                const result = await window._cashu.payln({ addrOrLnurl: address, comment });
-                console.log('Payment with comment result:', result);
-            } catch (error) {
-                alert('Payment failed: ' + error.message);
-                console.error('Payment error:', error);
-            }
-        }
+      if (result?.payload?.message) {
+        // New format: use payload message
+        message = result.payload.message;
+      } else if (result?.error?.message) {
+        // New format: use error message (for error status)
+        message = result.error.message;
+      } else if (result?.message) {
+        // Old format: use message field
+        message = result.message;
+      } else if (result?.action) {
+        // New format: use action as the message
+        message = result.action;
+      }
 
-        async function payLightningWithAmountAndComment(address, amount, comment) {
-            if (!address) {
-                alert('Please provide a Lightning address');
-                return;
-            }
-            
-            if (!amount || amount <= 0) {
-                alert('Please provide a valid amount');
-                return;
-            }
-            
-            if (!comment) {
-                alert('Please provide a comment');
-                return;
-            }
-            
-            if (typeof window._cashu === 'undefined') {
-                alert('Cashu extension not detected');
-                return;
-            }
-            
-            try {
-                const result = await window._cashu.payln({ addrOrLnurl: address, amount, comment });
-                console.log('Payment with amount and comment result:', result);
-            } catch (error) {
-                alert('Payment failed: ' + error.message);
-                console.error('Payment error:', error);
-            }
-        }
+      console.log('💈 Using message:', message);
+      console.log('💈 Result status:', result?.status);
 
-        async function payLightningWithCommentIfProvided(address) {
-            if (!address) {
-                alert('Please provide a Lightning address');
-                return;
-            }
-            
-            if (typeof window._cashu === 'undefined') {
-                alert('Cashu extension not detected');
-                return;
-            }
-            
-            // Get the comment from the appropriate input based on the address
-            let comment = '';
-            if (address === 'quiethorse9@primal.net') {
-                comment = document.getElementById('kelbie-comment').value.trim();
-            } else if (address === 'calle@npub.cash') {
-                comment = document.getElementById('calle-comment').value.trim();
-            }
-            
-            try {
-                if (comment) {
-                    const result = await window._cashu.payln({ addrOrLnurl: address, comment });
-                    console.log('Payment with comment result:', result);
-                } else {
-                    const result = await window._cashu.payln({ addrOrLnurl: address });
-                    console.log('Payment result:', result);
-                }
-            } catch (error) {
-                alert('Payment failed: ' + error.message);
-                console.error('Payment error:', error);
-            }
-        }
+      // Show appropriate toast type based on status
+      const status = result?.status || 'success';
+      if (status === 'success') {
+        showSuccess(`${message} (ID: ${actualId})`, 'Success', 'extension');
+      } else if (status === 'error') {
+        showError(`${message} (ID: ${actualId})`, 'Error', 'extension');
+      } else if (status === 'pending') {
+        showInfo(`${message} (ID: ${actualId})`, 'Pending', 'extension');
+      } else if (status === 'cancelled') {
+        showInfo(`${message} (ID: ${actualId})`, 'Cancelled', 'extension');
+      } else {
+        showSuccess(`${message} (ID: ${actualId})`, 'Success', 'extension');
+      }
+    }
 
-        async function payLightningWithAmountAndCommentIfProvided(address, amount) {
-            if (!address) {
-                alert('Please provide a Lightning address');
-                return;
-            }
-            
-            if (!amount || amount <= 0) {
-                alert('Please provide a valid amount');
-                return;
-            }
-            
-            if (typeof window._cashu === 'undefined') {
-                alert('Cashu extension not detected');
-                return;
-            }
-            
-            // Get the comment from the appropriate input based on the address
-            let comment = '';
-            if (address === 'quiethorse9@primal.net') {
-                comment = document.getElementById('kelbie-comment').value.trim();
-            } else if (address === 'calle@npub.cash') {
-                comment = document.getElementById('calle-comment').value.trim();
-            }
-            
-            try {
-                if (comment) {
-                    const result = await window._cashu.payln({ addrOrLnurl: address, amount, comment });
-                    console.log('Payment with amount and comment result:', result);
-                } else {
-                    const result = await window._cashu.payln({ addrOrLnurl: address, amount });
-                    console.log('Payment with amount only result:', result);
-                }
-            } catch (error) {
-                alert('Payment failed: ' + error.message);
-                console.error('Payment error:', error);
-            }
-        }
+    async function claimToken() {
+      const tokenInput = document.getElementById('cashu-token');
+      const token = tokenInput.value.trim();
 
-        async function payPredefinedAmountOnly() {
-            const address = document.getElementById('predefined-address').value.trim();
-            const amount = parseInt(document.getElementById('predefined-amount').value);
-            
-            if (!address) {
-                alert('Please enter a Lightning address');
-                return;
-            }
-            
-            if (!amount || amount <= 0) {
-                alert('Please enter a valid amount');
-                return;
-            }
-            
-            if (typeof window._cashu === 'undefined') {
-                alert('Cashu extension not detected');
-                return;
-            }
-            
-            try {
-                const result = await window._cashu.payln({ addrOrLnurl: address, amount });
-                console.log('Amount only payment result:', result);
-            } catch (error) {
-                alert('Payment failed: ' + error.message);
-                console.error('Payment error:', error);
-            }
-        }
+      if (!token) {
+        showError('Please enter a token to claim', 'Token Required');
+        return;
+      }
 
-        async function payPredefinedCommentOnly() {
-            const address = document.getElementById('predefined-address').value.trim();
-            const comment = document.getElementById('predefined-comment').value.trim();
-            
-            if (!address) {
-                alert('Please enter a Lightning address');
-                return;
-            }
-            
-            if (!comment) {
-                alert('Please enter a comment');
-                return;
-            }
-            
-            if (typeof window._cashu === 'undefined') {
-                alert('Cashu extension not detected');
-                return;
-            }
-            
-            try {
-                const result = await window._cashu.payln({ addrOrLnurl: address, comment });
-                console.log('Comment only payment result:', result);
-            } catch (error) {
-                alert('Payment failed: ' + error.message);
-                console.error('Payment error:', error);
-            }
-        }
+      if (typeof window._cashu === 'undefined') {
+        showError('Cashu extension not detected', 'Extension Not Found');
+        return;
+      }
 
-        async function payPredefinedAmountAndComment() {
-            const address = document.getElementById('predefined-address').value.trim();
-            const amount = parseInt(document.getElementById('predefined-amount').value);
-            const comment = document.getElementById('predefined-comment').value.trim();
-            
-            if (!address) {
-                alert('Please enter a Lightning address');
-                return;
-            }
-            
-            if (!amount || amount <= 0) {
-                alert('Please enter a valid amount');
-                return;
-            }
-            
-            if (typeof window._cashu === 'undefined') {
-                alert('Cashu extension not detected');
-                return;
-            }
-            
-            try {
-                const result = await window._cashu.payln({ addrOrLnurl: address, amount, comment });
-                console.log('Amount and comment payment result:', result);
-            } catch (error) {
-                alert('Payment failed: ' + error.message);
-                console.error('Payment error:', error);
-            }
-        }
-    </script>
+      // Get the promise with the actual message ID
+      const claimPromise = window._cashu.claimToken({ token });
+      const actualId = claimPromise.messageId;
+      
+      showInfo(`Processing token claim... (ID: ${actualId})`, 'Claiming Token');
+
+      try {
+        const result = await claimPromise;
+        handleExtensionResponse(result, actualId);
+      } catch (error) {
+        console.error('💈 Claim token error:', error);
+        showError(`${error.message} (ID: ${actualId})`, 'Error', 'extension');
+      }
+    }
+
+    async function openModal() {
+      if (typeof window._cashu === 'undefined') {
+        showError('Cashu extension not detected', 'Extension Not Found');
+        return;
+      }
+
+      // Get the promise with the actual message ID
+      const popupPromise = window._cashu.popup();
+      const actualId = popupPromise.messageId;
+      
+      showInfo(`Opening extension... (ID: ${actualId})`, 'Extension');
+
+      try {
+        const result = await popupPromise;
+        console.log('💈 Open extension result:', result);
+        // Use the actual message from the backend
+        const message = result?.message || 'Extension opened successfully';
+        showSuccess(`${message} (ID: ${actualId})`, 'Success', 'extension');
+      } catch (error) {
+        console.error('💈 Open extension error:', error);
+        showError(`${error.message} (ID: ${actualId})`, 'Error', 'extension');
+      }
+    }
+
+    async function payLightning(options = {}) {
+      // Only accepts object parameter: { addrOrLnurl, amount?, comment? }
+      // If no addrOrLnurl provided, uses input field
+      
+      let { addrOrLnurl, amount, comment } = options;
+      
+      // If no address provided, get from input field
+      if (!addrOrLnurl) {
+        addrOrLnurl = document.getElementById('lightning-address').value.trim();
+      }
+
+      if (!addrOrLnurl) {
+        showError('Please enter a Lightning address', 'Address Required');
+        return;
+      }
+
+      if (typeof window._cashu === 'undefined') {
+        showError('Cashu extension not detected', 'Extension Not Found');
+        return;
+      }
+
+      console.log('💈 About to call payln with:', { addrOrLnurl, amount, comment });
+      
+      const paymentPromise = window._cashu.payln({ addrOrLnurl, amount, comment });
+      const actualId = paymentPromise.messageId;
+      
+      showInfo(`Processing lightning payment... (ID: ${actualId})`, 'Payment');
+
+      try {
+        const result = await paymentPromise;
+        handleExtensionResponse(result, actualId);
+      } catch (error) {
+        showError(`${error.message} (ID: ${actualId})`, 'Error', 'extension');
+        console.error('Payment error:', error);
+      }
+    }
+
+    // All duplicate payment functions removed - now using unified payLightning function
+  </script>
 </body>
+
 </html>

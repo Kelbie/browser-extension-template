@@ -39,13 +39,8 @@ window.addEventListener('message', async (message) => {
 				id: message.data.id
 			});
 			
-			// Send success response back to webpage
-			const targetOrigin = getTargetOrigin();
-			window.postMessage({
-				id: message.data.id,
-				ext: 'cashu',
-				response: { success: true }
-			}, targetOrigin);
+			// Don't send immediate success response - wait for actual response from iframe
+			// The real response will come through the cashu.response flow
 		} catch (error) {
 			console.error('💈 Error opening popup:', error);
 			
@@ -63,17 +58,34 @@ window.addEventListener('message', async (message) => {
 // Listen for messages from background (to forward back to the webpage)
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	if (!message) return;
-	if (message.action !== 'frontendEvent') return;
-
+	
 	const targetOrigin = getTargetOrigin();
-	window.postMessage({
-		id: message.id,
-		ext: 'cashu',
-		type: 'frontendEvent',
-		event: message.event,
-		message: message.message,
-		payload: message.payload
-	}, targetOrigin);
+	
+	// Handle frontend events
+	if (message.action === 'frontendEvent') {
+		window.postMessage({
+			id: message.id,
+			ext: 'cashu',
+			type: 'frontendEvent',
+			event: message.event,
+			message: message.message,
+			payload: message.payload
+		}, targetOrigin);
+		return;
+	}
+	
+	// Handle extension responses (results from iframe)
+	if (message.action === 'cashu.response') {
+		console.log('💈 Content script received cashu.response:', message);
+		console.log('💈 Content responseData:', message.responseData);
+		
+		// Forward the complete response data to the webpage
+		const responseData = message.responseData;
+		window.postMessage({
+			...responseData, // Spread the complete response from iframe
+		}, targetOrigin);
+		return;
+	}
 });
 
 // Helper function to get target origin for postMessage
