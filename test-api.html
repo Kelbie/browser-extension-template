@@ -521,13 +521,12 @@
 // Open extension popup
 window._cashu.popup();
 
-// Claim token
-window._cashu.claimToken('cashuB...');
+// Claim token (object parameter only)
+window._cashu.claimToken({ token: 'cashuB...' });
 
-// Pay lightning
-window._cashu.payln('user@example.com');
-window._cashu.payln('user@example.com', 42);
-window._cashu.payln('user@example.com', 42, 'Thanks!');
+// Pay lightning (object parameter only)
+window._cashu.payln({ addrOrLnurl: 'user@example.com' });
+window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42 });
 window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Thanks!' });
 </pre>
                 </div>
@@ -694,7 +693,7 @@ window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Tha
                 return;
             }
             
-            window._cashu.claimToken(token);
+            window._cashu.claimToken({ token });
         }
 
         function openModal() {
@@ -719,7 +718,7 @@ window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Tha
             }
             
             try {
-                const result = await window._cashu.payln(address);
+                const result = await window._cashu.payln({ addrOrLnurl: address });
                 console.log('Payment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
@@ -739,7 +738,7 @@ window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Tha
             }
             
             try {
-                const result = await window._cashu.payln(address, amount);
+                const result = await window._cashu.payln({ addrOrLnurl: address, amount });
                 console.log('Payment with amount result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
@@ -764,7 +763,7 @@ window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Tha
             }
             
             try {
-                const result = await window._cashu.payln(address, undefined, comment);
+                const result = await window._cashu.payln({ addrOrLnurl: address, comment });
                 console.log('Payment with comment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
@@ -794,7 +793,7 @@ window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Tha
             }
             
             try {
-                const result = await window._cashu.payln(address, amount, comment);
+                const result = await window._cashu.payln({ addrOrLnurl: address, amount, comment });
                 console.log('Payment with amount and comment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
@@ -823,10 +822,10 @@ window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Tha
             
             try {
                 if (comment) {
-                    const result = await window._cashu.payln(address, undefined, comment);
+                    const result = await window._cashu.payln({ addrOrLnurl: address, comment });
                     console.log('Payment with comment result:', result);
                 } else {
-                    const result = await window._cashu.payln(address);
+                    const result = await window._cashu.payln({ addrOrLnurl: address });
                     console.log('Payment result:', result);
                 }
             } catch (error) {
@@ -861,10 +860,10 @@ window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Tha
             
             try {
                 if (comment) {
-                    const result = await window._cashu.payln(address, amount, comment);
+                    const result = await window._cashu.payln({ addrOrLnurl: address, amount, comment });
                     console.log('Payment with amount and comment result:', result);
                 } else {
-                    const result = await window._cashu.payln(address, amount);
+                    const result = await window._cashu.payln({ addrOrLnurl: address, amount });
                     console.log('Payment with amount only result:', result);
                 }
             } catch (error) {
@@ -893,7 +892,7 @@ window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Tha
             }
             
             try {
-                const result = await window._cashu.payln(address, amount);
+                const result = await window._cashu.payln({ addrOrLnurl: address, amount });
                 console.log('Amount only payment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
@@ -921,7 +920,7 @@ window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Tha
             }
             
             try {
-                const result = await window._cashu.payln(address, undefined, comment);
+                const result = await window._cashu.payln({ addrOrLnurl: address, comment });
                 console.log('Comment only payment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);
@@ -950,7 +949,7 @@ window._cashu.payln({ addrOrLnurl: 'user@example.com', amount: 42, comment: 'Tha
             }
             
             try {
-                const result = await window._cashu.payln(address, amount, comment);
+                const result = await window._cashu.payln({ addrOrLnurl: address, amount, comment });
                 console.log('Amount and comment payment result:', result);
             } catch (error) {
                 alert('Payment failed: ' + error.message);

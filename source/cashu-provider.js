@@ -39,33 +39,30 @@
 	};
 
 	// Add WebLN-like payment methods
-	window._cashu.payln = async function() {
-		// Supported signatures:
-		// payln(addrOrLnurl)
-		// payln(addrOrLnurl, amount)
-		// payln(addrOrLnurl, amount, comment)
-		// payln({ addrOrLnurl, amount?, comment? })
-		let addrOrLnurl, amount, comment;
-		if (arguments.length === 1 && typeof arguments[0] === 'object') {
-			const opts = arguments[0] || {};
-			addrOrLnurl = opts.addrOrLnurl || opts.address || opts.addr;
-			amount = opts.amount;
-			comment = opts.comment;
-		} else {
-			addrOrLnurl = arguments[0];
-			amount = arguments[1];
-			comment = arguments[2];
+	window._cashu.payln = async function(options = {}) {
+		// Only accepts object parameter: { addrOrLnurl, amount?, comment? }
+		const { addrOrLnurl, amount, comment } = options;
+		
+		if (!addrOrLnurl) {
+			console.error('💈 payln: addrOrLnurl is required');
+			return;
 		}
 
 		console.log('💈 payln called with:', addrOrLnurl, 'amount:', amount, 'comment:', comment);
 		await window._cashu.popup({ action: 'lnpay', params: { addrOrLnurl, amount, comment } });
 	};
 
-  window._cashu.claimToken = async function(token) {
+  window._cashu.claimToken = async function(options = {}) {
+		// Only accepts object parameter: { token }
+		const { token } = options;
+		
+		if (!token) {
+			console.error('💈 claimToken: token is required');
+			return;
+		}
+
     console.log('💈 claimToken called with:', token);
-		await window._cashu.popup({ action: 'claimToken', params: {
-      token: token
-    }});
+		await window._cashu.popup({ action: 'claimToken', params: { token } });
 	};
 
 	// Add enable method for WebLN compatibility
