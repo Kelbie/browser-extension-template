@@ -6,18 +6,20 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   console.log('💈 Background received message:', message);
   
   if (message.action === "openPopup") {
-    console.log('💈 Opening popup with params:', message.params);
+    console.log('💈 Opening popup with type:', message.type, 'params:', message.params);
 		await chrome.action.openPopup();
 
-		// Only forward an action to the popup if a specific type was provided
+		// Only forward to the popup if a specific type was provided
 		if (message.type) {
 			setTimeout(() => {
-      console.log('💈 Sending message to popup with action:', message.type, 'and params:', message.params);
+      console.log('💈 Sending message to popup with type:', message.type, 'and params:', message.params);
 				chrome.runtime.sendMessage({
-					action: message.type,
-					params: message.params
+					ext: 'cashu',
+					type: message.type,
+					params: message.params,
+					id: message.id
 				});
-			}, 2000);
+			}, 100);
 		}
 	}
 

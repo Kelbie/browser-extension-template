@@ -25,13 +25,16 @@ document.addEventListener("DOMContentLoaded", () => {
 	chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 		console.log("💈 Popup received message:", message);
 
-		console.log("💈 Processing action:", message.action, "with params:", message.params);
+		// Only handle messages from our extension
+		if (message.ext !== 'cashu') return;
+
+		console.log("💈 Processing type:", message.type, "with params:", message.params);
 
 		const iframe = document.getElementById("cashu-iframe");
 		if (iframe && iframe.contentWindow) {
 			console.log(
-				"💈 Sending postMessage to cashu.me with action:",
-				message.action,
+				"💈 Sending postMessage to cashu.me with type:",
+				message.type,
 				"and params:",
 				message.params,
 			);
@@ -39,9 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
 			iframe.contentWindow.postMessage(
 				{
 					ext: "cashu",
-					type: message.action,
+					type: message.type,
 					params: message.params,
-					id: Date.now(),
+					id: message.id || Date.now(),
 				},
 				"*",
 			);

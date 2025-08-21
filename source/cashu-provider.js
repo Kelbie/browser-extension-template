@@ -17,12 +17,11 @@
 	// Add the popup method
 	window._cashu.popup = function(options = {}) {
 		const { action, params } = options || {};
-		console.log('💈 Popup method called with params:', params);
+		console.log('💈 Popup method called with action:', action, 'params:', params);
 		// Send a message to the content script
 		const message = {
 			ext: 'cashu',
-			type: 'openPopup',
-      action: action,
+			type: action,
 			params: params || {},
 			id: Date.now()
 		};
@@ -64,7 +63,7 @@
 
   window._cashu.claimToken = async function(token) {
     console.log('💈 claimToken called with:', token);
-		await window._cashu.popup({action: 'claimToken', params: {
+		await window._cashu.popup({ action: 'claimToken', params: {
       token: token
     }});
 	};

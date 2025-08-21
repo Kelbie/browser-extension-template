@@ -22,20 +22,21 @@ window.addEventListener('message', async (message) => {
 	
 	console.log('💈 Message received from webpage:', message.data);
 	
-	// Handle different message types
-	if (message.data.type === 'openPopup') {
+	// Handle different message types - forward the message consistently
+	if (message.data.type) {
 		try {
-			console.log('💈 Content script received openPopup message:', message.data);
+			console.log('💈 Content script received message:', message.data);
 			console.log('💈 Full message object:', message);
 			console.log('💈 message.data.params:', message.data.params);
 			console.log('💈 message.data type:', typeof message.data);
 			console.log('💈 message.data keys:', Object.keys(message.data));
 			
-			// Send message to background script to open popup with the actual params
+			// Send message to background script to open popup with consistent format
 			await chrome.runtime.sendMessage({ 
 				action: 'openPopup', 
-        type: message.data.action,
-				params: message.data.params || {}
+        type: message.data.type,
+				params: message.data.params || {},
+				id: message.data.id
 			});
 			
 			// Send success response back to webpage
